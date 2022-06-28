@@ -1,5 +1,48 @@
-<view class="container">
-    <image class="banner" src="../../images/banner.png" mode="widthFix"></image>
-    <van-button class="scan" type="info" bindtap="scanBarCode">扫描书籍</van-button>
-    <van-dialog id="van-dialog" />
+<view>
+    <view class="container">
+        <view class="header">
+            <text>方寸之间</text>
+            <text>每一本书都值得被看见</text>
+        </view>
+        
+        <view class="scan">
+            <van-button 
+                bind:click="scanBook"
+                color="#93d8f8" 
+                custom-style="color:#2f2d51;font-weight:bold;" 
+                icon="scan"
+                round="true">添加书籍</van-button>
+        </view>
+    </view>
+
+    <view class="title">
+        <text>我的书架</text>
+    </view>
+    <view class="count">
+        <text class="number">50</text>
+        <text>读过的书 走过的路</text>
+    </view>
+
+    <view class="title">
+        <text>共享书架</text>
+    </view>
+    <view class="share">
+        <view class="input">
+            <van-field 
+            custom-style="background:#fff;min-height:42rpx;border-radius:32rpx;"
+            border="true" 
+            center="true" 
+            placeholder="对方的书架共享码"
+            input-align="center">
+                <van-icon slot="left-icon" name="share-o" color="#2f2d51"></van-icon>  
+                <van-button slot="button" 
+                    color="#93d8f8" 
+                    custom-style="color:#2f2d51;font-weight:bold;"
+                    round="true">导入</van-button>          
+            </van-field>
+        </view>
+        <view class="code">
+            <text>我的共享码：GXSDFLSA</text>
+        </view>
+    </view>
 </view>

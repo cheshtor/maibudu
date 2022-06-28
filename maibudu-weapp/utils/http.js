@@ -8,7 +8,7 @@ export default async function invoke(obj, number = 0) {
             }
         })
         console.log(`微信云托管调用结果${result.errMsg} | callid:${result.callID}`)
-        return result.data.data
+        return result.data
     } catch (e) {
         const error = e.toString()
         if (error.indexOf("Cloud API isn't enabled") != -1 && number < 3) {

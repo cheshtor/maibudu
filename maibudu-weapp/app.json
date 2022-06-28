@@ -4,11 +4,11 @@
     ],
     "window": {
         "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#fff",
+        "navigationBarBackgroundColor": "#f2f7ff",
         "navigationBarTitleText": "买不读",
         "navigationBarTextStyle": "black",
-        "backgroundColor": "#ffffff",
-        "backgroundColorBottom": "#ffffff"
+        "backgroundColor": "#f2f7ff",
+        "backgroundColorBottom": "#f2f7ff"
     },
     "sitemapLocation": "sitemap.json"
 }
