@@ -50,7 +50,7 @@ public class JvHeBookInfo implements Serializable {
 
     public Book convert() {
         Book book = new Book();
-        book.setName(this.getTitle());
+        book.setTitle(this.getTitle());
         book.setSubtitle(this.getSubtitle());
         book.setAuthor(this.getAuthor());
         if (StringUtils.hasLength(this.getPubdate())) {

@@ -70,7 +70,7 @@ public class JikeBookInfo implements Serializable {
 
     public Book convert() {
         Book book = new Book();
-        book.setName(this.getName());
+        book.setTitle(this.getName());
         book.setSubtitle(this.getSubname());
         book.setAuthor(this.getAuthor());
         if (StringUtils.hasLength(this.getPublished())) {
