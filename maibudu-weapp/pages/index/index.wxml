@@ -1,0 +1,5 @@
+<view class="container">
+    <image class="banner" src="../../images/banner.png" mode="widthFix"></image>
+    <van-button class="scan" type="info" bindtap="scanBarCode">扫描书籍</van-button>
+    <van-dialog id="van-dialog" />
+</view>

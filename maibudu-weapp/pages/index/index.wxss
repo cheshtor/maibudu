@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.banner {
+    width: 90%;
+}
+
+.scan {
+    margin-top: 24rpx;
+}

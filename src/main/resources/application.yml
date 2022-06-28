@@ -1,0 +1,13 @@
+server:
+  port: ${HTTP_PORT:8080}
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_ADDRESS:gz-cdb-gm0faz3h.sql.tencentcdb.com:57956}/${MYSQL_DATABASE:maibudu}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MySQL_PASSWORD:7788uJmki*}
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  config-location: classpath:mybatis-config.xml

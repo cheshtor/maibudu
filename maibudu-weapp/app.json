@@ -1,0 +1,14 @@
+{
+    "pages": [
+        "pages/index/index"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "买不读",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#ffffff",
+        "backgroundColorBottom": "#ffffff"
+    },
+    "sitemapLocation": "sitemap.json"
+}

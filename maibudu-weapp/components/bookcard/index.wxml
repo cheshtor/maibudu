@@ -1,0 +1,13 @@
+<view class="container">
+    <view class="cover">
+        <image src="{{cover}}" mode="aspectFit"></image>
+    </view>
+
+    <view class="name">
+        {{name}}
+    </view>
+
+    <view class="author">
+        {{author}}
+    </view>
+</view>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mabushizai.maibudu.dao.ShelfBookDao">
+    <resultMap id="BaseResultMap" type="com.mabushizai.maibudu.domain.ShelfBook">
+        <!--@mbg.generated-->
+        <!--@Table shelf_book-->
+        <id column="uid" property="uid"/>
+        <id column="book_id" property="bookId"/>
+        <result column="read_status" property="readStatus"/>
+        <result column="create_date" property="createDate"/>
+        <result column="sys_status" property="sysStatus"/>
+    </resultMap>
+    
+    <resultMap id="bookDetail" extends="com.mabushizai.maibudu.dao.BookDao.BaseResultMap" type="com.mabushizai.maibudu.domain.BookDetails">
+        <result column="read_status" property="readStatus"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        `uid`, book_id, read_status, create_date, sys_status
+    </sql>
+
+    <select id="searchBook" resultMap="bookDetail">
+        SELECT
+            b.`id`,
+            b.`uid`,
+            b.`title`,
+            b.subtitle,
+            b.author,
+            b.publish_date,
+            b.publisher,
+            b.isbn,
+            b.summary,
+            b.pages,
+            b.price,
+            b.binding,
+            b.cover,
+            s.read_status,
+            s.create_date
+        FROM
+            shelf_book AS s,
+            book AS b
+        WHERE
+            s.book_id = b.id
+            AND
+            s.sys_status = 0
+            AND
+            b.sys_status = 0
+            AND
+            s.uid = #{uid}
+            <if test="title != null and title != ''">
+                AND
+                b.title LIKE CONCAT('%', #{title}, '%')
+            </if>
+        ORDER BY
+            s.create_date DESC
+    </select>
+
+    <select id="getBookDetails" resultMap="bookDetail">
+        SELECT
+            b.`id`,
+            b.`uid`,
+            b.`title`,
+            b.subtitle,
+            b.author,
+            b.publish_date,
+            b.publisher,
+            b.isbn,
+            b.summary,
+            b.pages,
+            b.price,
+            b.binding,
+            b.cover,
+            s.read_status,
+            s.create_date
+        FROM
+            shelf_book AS s,
+            book AS b
+        WHERE
+            s.book_id = b.id
+            AND
+            s.sys_status = 0
+            AND
+            b.sys_status = 0
+            AND
+            s.uid = #{uid}
+            AND
+            s.book_id = #{bookId}
+        ORDER BY
+            s.create_date DESC
+    </select>
+
+    <select id="findByUidAndBookId" parameterType="map" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            shelf_book
+        WHERE
+            `uid` = #{uid}
+            AND
+            book_id = #{bookId}
+            AND
+            `sys_status` = 0
+    </select>
+
+    <insert id="insert" parameterType="com.mabushizai.maibudu.domain.ShelfBook">
+        <!--@mbg.generated-->
+        insert into shelf_book (`uid`, book_id, read_status, create_date, sys_status)
+        values (#{uid}, #{bookId}, #{readStatus}, #{createDate}, #{sysStatus})
+    </insert>
+</mapper>

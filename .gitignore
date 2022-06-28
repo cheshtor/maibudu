@@ -1,0 +1,10 @@
+.idea
+*.iml
+target
+.classpath
+.project
+.DS_Store
+logs/
+node_modules/
+miniprogram_npm/
+.cloudbase/
