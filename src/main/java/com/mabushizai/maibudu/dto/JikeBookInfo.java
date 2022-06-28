@@ -82,7 +82,11 @@ public class JikeBookInfo implements Serializable {
         }
         book.setPublisher(this.getPublishing());
         book.setIsbn(String.valueOf(this.getId()));
-        book.setSummary(this.getDescription());
+        String summary = this.getDescription();
+        if (summary.length() > 1024) {
+            summary = summary.substring(0, 1020) + "...";
+        }
+        book.setSummary(summary);
         if (StringUtils.hasLength(this.getPages())) {
             book.setPages(Integer.parseInt(this.getPages()));
         }

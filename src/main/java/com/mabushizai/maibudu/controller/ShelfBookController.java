@@ -2,6 +2,7 @@ package com.mabushizai.maibudu.controller;
 
 import com.mabushizai.maibudu.config.ApiResponse;
 import com.mabushizai.maibudu.domain.BookDetails;
+import com.mabushizai.maibudu.dto.BookSlimInfo;
 import com.mabushizai.maibudu.dto.Page;
 import com.mabushizai.maibudu.dto.PageModel;
 import com.mabushizai.maibudu.service.ShelfBookService;
@@ -18,7 +19,7 @@ import javax.annotation.Resource;
  * CreateDate 2022/6/27
  */
 @RestController
-@RequestMapping(value = "/api/shelfbook")
+@RequestMapping(value = "/api/shelf")
 public class ShelfBookController {
 
     @Resource
@@ -36,7 +37,7 @@ public class ShelfBookController {
     @GetMapping(value = "/listBook")
     public ApiResponse<Page<BookDetails>> listBook(@RequestParam("pageNo") Long pageNo,
                                                     @RequestParam("pageSize") Integer pageSize,
-                                                    @RequestParam("keyword") String keyword) {
+                                                    @RequestParam(value = "keyword", required = false) String keyword) {
         PageModel pageModel = new PageModel(pageNo, pageSize);
         Page<BookDetails> page = shelfBookService.list(pageModel, keyword);
         return ApiResponse.ok(page);
@@ -48,5 +49,29 @@ public class ShelfBookController {
         BookDetails bookDetails = shelfBookService.getBookDetails(bookId);
         return ApiResponse.ok(bookDetails);
     }
+
+    @GetMapping(value = "/getSlim")
+    public ApiResponse<BookSlimInfo> getSlimBookInfo(@RequestParam("bookId") Long bookId) {
+        AssertUtil.notNull(bookId, "书籍 ID 不能为空");
+        BookDetails bookDetails = shelfBookService.getBookDetails(bookId);
+        BookSlimInfo slimInfo = new BookSlimInfo();
+        slimInfo.doSlim(bookDetails);
+        return ApiResponse.ok(slimInfo);
+    }
+
+    @GetMapping(value = "/remove")
+    public ApiResponse<Boolean> removeBook(@RequestParam("bookId") Long bookId) {
+        AssertUtil.notNull(bookId, "书籍 ID 不能为空");
+        boolean success = shelfBookService.removeBook(bookId);
+        return ApiResponse.ok(success);
+    }
+
+    @GetMapping(value = "/count")
+    public ApiResponse<Long> countBook() {
+        long count = shelfBookService.countBook();
+        return ApiResponse.ok(count);
+    }
+
+
 
 }

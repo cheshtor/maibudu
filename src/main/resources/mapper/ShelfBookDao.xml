@@ -105,6 +105,21 @@
             `sys_status` = 0
     </select>
 
+    <update id="removeBook">
+        UPDATE
+            shelf_book
+        SET
+            sys_status = 1
+        WHERE
+            `uid` = #{uid}
+            AND
+            `book_id` = #{bookId}
+    </update>
+
+    <select id="countBook" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM shelf_book WHERE `uid` = #{uid} AND `sys_status` = 0
+    </select>
+
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.ShelfBook">
         <!--@mbg.generated-->
         insert into shelf_book (`uid`, book_id, read_status, create_date, sys_status)

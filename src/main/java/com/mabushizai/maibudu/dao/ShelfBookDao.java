@@ -23,5 +23,9 @@ public interface ShelfBookDao {
 
     ShelfBook findByUidAndBookId(@Param("uid") String uid, @Param("bookId") Long bookId);
 
+    int removeBook(@Param("uid") String uid, @Param("bookId") Long bookId);
+
+    long countBook(@Param("uid") String uid);
+
 
 }

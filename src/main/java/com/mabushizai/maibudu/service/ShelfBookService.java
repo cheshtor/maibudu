@@ -55,5 +55,17 @@ public class ShelfBookService {
         return shelfBookDao.getBookDetails(uid, bookId);
     }
 
+    @Transactional
+    public boolean removeBook(Long bookId) {
+        String uid = UserContext.getUid();
+        int rows = shelfBookDao.removeBook(uid, bookId);
+        return rows != 0;
+    }
+
+    public long countBook() {
+        String uid = UserContext.getUid();
+        return shelfBookDao.countBook(uid);
+    }
+
 
 }

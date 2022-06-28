@@ -40,8 +40,12 @@ public class BookService {
         // 不重复入库
         Book book = bookDao.findByISBN(isbn);
         if (null != book) {
+            Byte readStatus = null;
             ShelfBook shelfBook = shelfBookDao.findByUidAndBookId(uid, book.getId());
-            slimInfo.extract(book, shelfBook.getReadStatus());
+            if (null != shelfBook) {
+                readStatus = shelfBook.getReadStatus();
+            }
+            slimInfo.extract(book, readStatus);
             return slimInfo;
         }
         // 调用 API 获取书籍信息
