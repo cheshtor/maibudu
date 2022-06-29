@@ -1,5 +1,7 @@
 package com.mabushizai.maibudu.config;
 
+import com.mabushizai.maibudu.domain.User;
+import com.mabushizai.maibudu.service.UserService;
 import com.mabushizai.maibudu.utils.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
@@ -22,6 +25,9 @@ import java.util.Objects;
 @Aspect
 @Component
 public class ApiResponseAdvice {
+
+    @Resource
+    private UserService userService;
 
     @Pointcut("execution(public com.mabushizai.maibudu.config.ApiResponse *(..))")
     public void execute() {
@@ -41,13 +47,15 @@ public class ApiResponseAdvice {
                 }
             }
             UserContext.setUid(uid);
+            User user = userService.findByUid();
+            UserContext.setUser(user);
             result = (ApiResponse<?>) pjp.proceed();
             log.info("{} request {} success.", uid, pjp.getSignature());
         } catch (Throwable e) {
             result = ApiResponse.error(e.getMessage());
             log.error("{} request failed.", pjp.getSignature(), e);
         } finally {
-            UserContext.removeUid();
+            UserContext.remove();
         }
         return result;
     }

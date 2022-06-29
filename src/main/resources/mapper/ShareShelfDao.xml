@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mabushizai.maibudu.dao.ShareShelfDao">
+  <resultMap id="BaseResultMap" type="com.mabushizai.maibudu.domain.ShareShelf">
+    <!--@mbg.generated-->
+    <!--@Table share_shelf-->
+    <id column="importer_id" property="importerId" />
+    <id column="exporter_id" property="exporterId" />
+    <result column="create_date" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    importer_id, exporter_id, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from share_shelf
+    where importer_id = #{importerId}
+      and exporter_id = #{exporterId}
+  </select>
+
+  <delete id="removeShare">
+    DELETE FROM `share_shelf` WHERE `importer_id` = #{importerId} and `exporter_id` = #{exporterId}
+  </delete>
+
+  <insert id="insert" parameterType="com.mabushizai.maibudu.domain.ShareShelf">
+    <!--@mbg.generated-->
+    insert into share_shelf (importer_id, exporter_id, create_date)
+    values (#{importerId}, #{exporterId}, #{createDate})
+  </insert>
+
+  <select id="listShares" resultMap="BaseResultMap">
+    SELECT
+        <include refid="Base_Column_List" />
+    FROM
+        `share_shelf`
+    WHERE
+        `importer_id` = #{importerId}
+  </select>
+</mapper>

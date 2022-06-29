@@ -5,32 +5,30 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 架上图书信息
+ * 用户
  *
  * @author Pengyu Gan
- * CreateDate 2022/6/27
+ * CreateDate 2022/6/29
  */
 @Data
-public class ShelfBook {
-
-
+public class User {
     /**
-     * 用户ID
-     */
+    * 用户ID
+    */
     private String uid;
 
     /**
-     * 书籍ID
-     */
-    private Long bookId;
+    * 用户唯一编码，用于分享等场景
+    */
+    private String code;
 
     /**
-     * 添加时间
-     */
+    * 创建时间
+    */
     private LocalDateTime createDate;
 
     /**
-     * 0 - 正常，1 - 删除
-     */
+    * 0 - 正常，1 - 删除
+    */
     private Byte sysStatus;
 }

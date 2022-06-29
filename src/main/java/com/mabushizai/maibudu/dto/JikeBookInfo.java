@@ -1,5 +1,6 @@
 package com.mabushizai.maibudu.dto;
 
+import com.mabushizai.maibudu.config.MaibuduException;
 import com.mabushizai.maibudu.constants.SysStatusEnum;
 import com.mabushizai.maibudu.domain.Book;
 import com.mabushizai.maibudu.utils.StringUtil;
@@ -69,34 +70,38 @@ public class JikeBookInfo implements Serializable {
     private String description;
 
     public Book convert() {
-        Book book = new Book();
-        book.setTitle(this.getName());
-        book.setSubtitle(this.getSubname());
-        book.setAuthor(this.getAuthor());
-        if (StringUtils.hasLength(this.getPublished())) {
-            String[] parts = this.getPublished().split("-");
-            int year = Integer.parseInt(parts[0]);
-            int month = Integer.parseInt(parts[1]);
-            LocalDate publishDate = LocalDate.of(year, month, 1);
-            book.setPublishDate(publishDate);
+        try {
+            Book book = new Book();
+            book.setTitle(this.getName());
+            book.setSubtitle(this.getSubname());
+            book.setAuthor(this.getAuthor());
+            if (StringUtils.hasLength(this.getPublished())) {
+                String[] parts = this.getPublished().split("-");
+                int year = Integer.parseInt(parts[0]);
+                int month = Integer.parseInt(parts[1]);
+                LocalDate publishDate = LocalDate.of(year, month, 1);
+                book.setPublishDate(publishDate);
+            }
+            book.setPublisher(this.getPublishing());
+            book.setIsbn(String.valueOf(this.getId()));
+            String summary = this.getDescription();
+            if (summary.length() > 1024) {
+                summary = summary.substring(0, 1020) + "...";
+            }
+            book.setSummary(summary);
+            if (StringUtils.hasLength(this.getPages())) {
+                book.setPages(Integer.parseInt(this.getPages()));
+            }
+            if (StringUtils.hasLength(this.getPrice())) {
+                book.setPrice(new BigDecimal(StringUtil.cleanPrice(this.getPrice())));
+            }
+            book.setBinding(this.getDesigned());
+            book.setCover(this.getPhotoUrl());
+            book.setSysStatus(SysStatusEnum.NORMAL.getValue());
+            return book;
+        } catch (Throwable e) {
+            throw new MaibuduException("分析书籍信息失败");
         }
-        book.setPublisher(this.getPublishing());
-        book.setIsbn(String.valueOf(this.getId()));
-        String summary = this.getDescription();
-        if (summary.length() > 1024) {
-            summary = summary.substring(0, 1020) + "...";
-        }
-        book.setSummary(summary);
-        if (StringUtils.hasLength(this.getPages())) {
-            book.setPages(Integer.parseInt(this.getPages()));
-        }
-        if (StringUtils.hasLength(this.getPrice())) {
-            book.setPrice(new BigDecimal(StringUtil.removeChinese(this.getPrice())));
-        }
-        book.setBinding(this.getDesigned());
-        book.setCover(this.getPhotoUrl());
-        book.setSysStatus(SysStatusEnum.NORMAL.getValue());
-        return book;
     }
 
 }

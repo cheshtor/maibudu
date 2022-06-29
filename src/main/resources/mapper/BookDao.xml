@@ -33,8 +33,6 @@
             book
         WHERE
             `isbn` = #{isbn}
-            AND
-            `sys_status` = 0
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -43,6 +41,7 @@
         <include refid="Base_Column_List"/>
         from book
         where id = #{id}
+        and sys_status = 0
     </select>
 
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.Book">

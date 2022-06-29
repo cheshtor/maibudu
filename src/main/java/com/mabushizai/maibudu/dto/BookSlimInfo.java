@@ -1,7 +1,6 @@
 package com.mabushizai.maibudu.dto;
 
 import com.mabushizai.maibudu.domain.Book;
-import com.mabushizai.maibudu.domain.BookDetails;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -25,24 +24,20 @@ public class BookSlimInfo implements Serializable {
 
     private String cover;
 
-    private Byte readStatus;
-
-    public void extract(Book book, Byte readStatus) {
+    public void extract(Book book) {
         this.id = book.getId();
         this.title = book.getTitle();
         this.subTitle = book.getSubtitle();
         this.author = book.getAuthor();
         this.cover = book.getCover();
-        this.readStatus = readStatus;
     }
 
-    public void doSlim(BookDetails bookDetails) {
-        this.id = bookDetails.getId();
-        this.title = bookDetails.getTitle();
-        this.subTitle = bookDetails.getSubtitle();
-        this.author = bookDetails.getAuthor();
-        this.cover = bookDetails.getCover();
-        this.readStatus = bookDetails.getReadStatus();
+    public void doSlim(Book book) {
+        this.id = book.getId();
+        this.title = book.getTitle();
+        this.subTitle = book.getSubtitle();
+        this.author = book.getAuthor();
+        this.cover = book.getCover();
     }
 
 }

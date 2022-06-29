@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mabushizai.maibudu.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.mabushizai.maibudu.domain.User">
+        <!--@mbg.generated-->
+        <!--@Table `user`-->
+        <id column="uid" property="uid"/>
+        <result column="code" property="code"/>
+        <result column="create_date" property="createDate"/>
+        <result column="sys_status" property="sysStatus"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        `uid`, `code`, create_date, sys_status
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from `user`
+        where `uid` = #{uid}
+    </select>
+    <insert id="insert" parameterType="com.mabushizai.maibudu.domain.User">
+        <!--@mbg.generated-->
+        insert into `user` (`uid`, code, create_date, sys_status)
+        values (#{uid}, #{code}, #{createDate}, #{sysStatus})
+    </insert>
+
+    <select id="countByCode" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM `user` WHERE code = #{code}
+    </select>
+
+    <select id="findByCode" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+            `user`
+        WHERE
+            `code` = #{code}
+            AND
+            `sys_status` = 0
+    </select>
+</mapper>

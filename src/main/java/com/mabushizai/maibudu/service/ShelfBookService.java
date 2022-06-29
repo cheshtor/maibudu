@@ -3,7 +3,7 @@ package com.mabushizai.maibudu.service;
 import com.mabushizai.maibudu.config.MaibuduException;
 import com.mabushizai.maibudu.constants.SysStatusEnum;
 import com.mabushizai.maibudu.dao.ShelfBookDao;
-import com.mabushizai.maibudu.domain.BookDetails;
+import com.mabushizai.maibudu.domain.Book;
 import com.mabushizai.maibudu.domain.ShelfBook;
 import com.mabushizai.maibudu.dto.Page;
 import com.mabushizai.maibudu.dto.PageModel;
@@ -28,7 +28,7 @@ public class ShelfBookService {
     private ShelfBookDao shelfBookDao;
 
     @Transactional
-    public boolean addBook(Long bookId, Byte readStatus) {
+    public boolean addBook(Long bookId) {
         String uid = UserContext.getUid();
         ShelfBook shelfBook = shelfBookDao.findByUidAndBookId(uid, bookId);
         if (null != shelfBook) {
@@ -37,22 +37,16 @@ public class ShelfBookService {
         shelfBook = new ShelfBook();
         shelfBook.setUid(uid);
         shelfBook.setBookId(bookId);
-        shelfBook.setReadStatus(readStatus);
         shelfBook.setCreateDate(LocalDateTime.now());
         shelfBook.setSysStatus(SysStatusEnum.NORMAL.getValue());
         int rows = shelfBookDao.insert(shelfBook);
         return rows != 0;
     }
 
-    public Page<BookDetails> list(PageModel pageModel, String keyword) {
+    public Page<Book> list(PageModel pageModel, String keyword) {
         String uid = UserContext.getUid();
-        List<BookDetails> bookDetails = shelfBookDao.searchBook(uid, keyword, pageModel);
+        List<Book> bookDetails = shelfBookDao.searchBook(uid, keyword, pageModel);
         return new Page<>(pageModel, bookDetails);
-    }
-
-    public BookDetails getBookDetails(Long bookId) {
-        String uid = UserContext.getUid();
-        return shelfBookDao.getBookDetails(uid, bookId);
     }
 
     @Transactional
