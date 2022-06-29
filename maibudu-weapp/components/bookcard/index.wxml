@@ -1,13 +1,9 @@
-<view class="container">
-    <view class="cover">
-        <image src="{{cover}}" mode="aspectFit"></image>
-    </view>
-
-    <view class="name">
-        {{name}}
-    </view>
-
-    <view class="author">
-        {{author}}
-    </view>
+<view class="outer">
+    <van-card
+        currency=""
+        title="{{title}}"
+        thumb="{{cover}}">
+        <text slot="desc">{{author}}</text>
+        <text slot="price">{{publisher}}</text>
+    </van-card>
 </view>

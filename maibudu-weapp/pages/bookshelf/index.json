@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+        "m-search": "../../components/search/index",
+        "m-book-card": "../../components/bookcard/index"
+    }
+}

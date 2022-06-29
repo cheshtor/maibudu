@@ -1,26 +1,15 @@
-import invoke from "../../utils/http"
-
 Component({
+    options: {
+        styleIsolation: 'shared'
+    },
     properties: {
-        bookId: Number
+        title: String,
+        author: String,
+        publisher: String,
+        cover: String
     },
 
     data: {
-        cover: '',
-        name: '',
-        author: ''
-    },
 
-    lifetimes: {
-        async attached() {
-            const res = await invoke({
-                path: "/api/book/get?bookId=" + this.properties.bookId
-            })
-            this.setData({
-                cover: res.cover,
-                name: res.name,
-                author: res.author
-            })
-        }
     }
 })

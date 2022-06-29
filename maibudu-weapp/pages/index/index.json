@@ -2,6 +2,7 @@
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
     "van-field": "@vant/weapp/field/index",
-    "van-icon": "@vant/weapp/icon/index"
+    "van-icon": "@vant/weapp/icon/index",
+    "m-search": "../../components/search/index"
   }
 }

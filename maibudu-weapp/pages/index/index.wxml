@@ -18,7 +18,7 @@
     <view class="title">
         <text>我的书架</text>
     </view>
-    <view class="count">
+    <view class="count" bindtap="goBookshelf">
         <text class="number">50</text>
         <text>读过的书 走过的路</text>
     </view>
@@ -27,20 +27,7 @@
         <text>共享书架</text>
     </view>
     <view class="share">
-        <view class="input">
-            <van-field 
-            custom-style="background:#fff;min-height:42rpx;border-radius:32rpx;"
-            border="true" 
-            center="true" 
-            placeholder="对方的书架共享码"
-            input-align="center">
-                <van-icon slot="left-icon" name="share-o" color="#2f2d51"></van-icon>  
-                <van-button slot="button" 
-                    color="#93d8f8" 
-                    custom-style="color:#2f2d51;font-weight:bold;"
-                    round="true">导入</van-button>          
-            </van-field>
-        </view>
+        <m-search bindonSearch="importShare" placeholder="书架共享码" text="导入" left-icon="share-o"></m-search>
         <view class="code">
             <text>我的共享码：GXSDFLSA</text>
         </view>
