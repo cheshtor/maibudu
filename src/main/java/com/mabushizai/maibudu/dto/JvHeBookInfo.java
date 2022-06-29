@@ -2,6 +2,7 @@ package com.mabushizai.maibudu.dto;
 
 import com.mabushizai.maibudu.constants.SysStatusEnum;
 import com.mabushizai.maibudu.domain.Book;
+import com.mabushizai.maibudu.utils.StringUtil;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
@@ -67,7 +68,7 @@ public class JvHeBookInfo implements Serializable {
             book.setPages(Integer.parseInt(this.getPages()));
         }
         if (StringUtils.hasLength(this.getPrice())) {
-            book.setPrice(new BigDecimal(this.getPrice()));
+            book.setPrice(new BigDecimal(StringUtil.cleanPrice(this.getPrice())));
         }
         book.setBinding(this.getBinding());
         book.setCover(this.getImages_large());

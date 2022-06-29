@@ -6,22 +6,16 @@
         <!--@Table shelf_book-->
         <id column="uid" property="uid"/>
         <id column="book_id" property="bookId"/>
-        <result column="read_status" property="readStatus"/>
         <result column="create_date" property="createDate"/>
         <result column="sys_status" property="sysStatus"/>
     </resultMap>
-    
-    <resultMap id="bookDetail" extends="com.mabushizai.maibudu.dao.BookDao.BaseResultMap" type="com.mabushizai.maibudu.domain.BookDetails">
-        <result column="read_status" property="readStatus"/>
-        <result column="create_date" property="createDate"/>
-    </resultMap>
-    
+
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        `uid`, book_id, read_status, create_date, sys_status
+        `uid`, book_id, create_date, sys_status
     </sql>
 
-    <select id="searchBook" resultMap="bookDetail">
+    <select id="searchBook" resultMap="com.mabushizai.maibudu.dao.BookDao.BaseResultMap">
         SELECT
             b.`id`,
             b.`uid`,
@@ -35,60 +29,47 @@
             b.pages,
             b.price,
             b.binding,
-            b.cover,
-            s.read_status,
-            s.create_date
+            b.cover
         FROM
-            shelf_book AS s,
-            book AS b
+            book AS b,
+            shelf_book AS sb,
+            share_shelf AS ss
         WHERE
-            s.book_id = b.id
-            AND
-            s.sys_status = 0
-            AND
-            b.sys_status = 0
-            AND
-            s.uid = #{uid}
-            <if test="title != null and title != ''">
-                AND
-                b.title LIKE CONCAT('%', #{title}, '%')
-            </if>
+            b.id = sb.book_id
+          AND ss.importer_id = #{uid}
+          AND (
+                sb.uid = ss.exporter_id
+                OR
+                sb.uid = #{uid}
+            )
+          AND b.sys_status = 0
+          AND sb.sys_status = 0
+          <if test="title != null and title != ''">
+            AND b.title LIKE CONCAT('%', #{title}, '%')
+          </if>
         ORDER BY
-            s.create_date DESC
-    </select>
+            b.uid DESC
 
-    <select id="getBookDetails" resultMap="bookDetail">
-        SELECT
-            b.`id`,
-            b.`uid`,
-            b.`title`,
-            b.subtitle,
-            b.author,
-            b.publish_date,
-            b.publisher,
-            b.isbn,
-            b.summary,
-            b.pages,
-            b.price,
-            b.binding,
-            b.cover,
-            s.read_status,
-            s.create_date
-        FROM
-            shelf_book AS s,
-            book AS b
-        WHERE
-            s.book_id = b.id
-            AND
-            s.sys_status = 0
-            AND
-            b.sys_status = 0
-            AND
-            s.uid = #{uid}
-            AND
-            s.book_id = #{bookId}
-        ORDER BY
-            s.create_date DESC
+
+<!--        SELECT-->
+<!--        u.code,-->
+<!--        b.*-->
+<!--        FROM-->
+<!--        shelf_book AS sb-->
+<!--        LEFT JOIN book AS b-->
+<!--        ON sb.book_id = b.id-->
+<!--        LEFT JOIN `user` AS u-->
+<!--        ON u.uid = sb.uid-->
+<!--        WHERE-->
+<!--        sb.uid IN (-->
+<!--        SELECT-->
+<!--        DISTINCT(exporter_id)-->
+<!--        FROM-->
+<!--        share_shelf-->
+<!--        WHERE-->
+<!--        importer_id = 'oso0q5VABTWlDGMSlCNuUSx6BOSA'-->
+<!--        )-->
+<!--        OR sb.uid = 'oso0q5VABTWlDGMSlCNuUSx6BOSA'-->
     </select>
 
     <select id="findByUidAndBookId" parameterType="map" resultMap="BaseResultMap">
@@ -117,12 +98,25 @@
     </update>
 
     <select id="countBook" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM shelf_book WHERE `uid` = #{uid} AND `sys_status` = 0
+        SELECT
+            count(DISTINCT(book_id))
+        FROM
+            shelf_book
+        WHERE
+                uid IN (
+                SELECT
+                    DISTINCT(exporter_id)
+                FROM
+                    share_shelf
+                WHERE
+                    importer_id = #{uid}
+            )
+           OR uid = #{uid}
     </select>
 
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.ShelfBook">
         <!--@mbg.generated-->
-        insert into shelf_book (`uid`, book_id, read_status, create_date, sys_status)
-        values (#{uid}, #{bookId}, #{readStatus}, #{createDate}, #{sysStatus})
+        insert into shelf_book (`uid`, book_id, create_date, sys_status)
+        values (#{uid}, #{bookId}, #{createDate}, #{sysStatus})
     </insert>
 </mapper>

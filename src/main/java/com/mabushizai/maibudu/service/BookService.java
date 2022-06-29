@@ -1,10 +1,9 @@
 package com.mabushizai.maibudu.service;
 
 import com.mabushizai.maibudu.config.MaibuduException;
+import com.mabushizai.maibudu.constants.SysStatusEnum;
 import com.mabushizai.maibudu.dao.BookDao;
-import com.mabushizai.maibudu.dao.ShelfBookDao;
 import com.mabushizai.maibudu.domain.Book;
-import com.mabushizai.maibudu.domain.ShelfBook;
 import com.mabushizai.maibudu.dto.BookSlimInfo;
 import com.mabushizai.maibudu.dto.JikeBookInfo;
 import com.mabushizai.maibudu.utils.HttpUtil;
@@ -31,7 +30,7 @@ public class BookService {
     private BookDao bookDao;
 
     @Resource
-    private ShelfBookDao shelfBookDao;
+    private UserService userService;
 
     @Transactional
     public BookSlimInfo scanBook(String isbn) {
@@ -40,13 +39,12 @@ public class BookService {
         // 不重复入库
         Book book = bookDao.findByISBN(isbn);
         if (null != book) {
-            Byte readStatus = null;
-            ShelfBook shelfBook = shelfBookDao.findByUidAndBookId(uid, book.getId());
-            if (null != shelfBook) {
-                readStatus = shelfBook.getReadStatus();
+            // 判断书籍状态，被禁用的书籍信息不允许使用、也不允许添加
+            if (book.getSysStatus().equals(SysStatusEnum.NORMAL.getValue())) {
+                slimInfo.extract(book);
+                return slimInfo;
             }
-            slimInfo.extract(book, readStatus);
-            return slimInfo;
+            throw new MaibuduException("暂不支持此书籍入库");
         }
         // 调用 API 获取书籍信息
         JikeBookInfo bookInfo = HttpUtil.getJikeBookInfo(isbn);
@@ -62,8 +60,17 @@ public class BookService {
         if (rows <= 0) {
             throw new MaibuduException("书籍入库失败，请重试！");
         }
-        slimInfo.extract(book, null);
+        // 新用户入库
+        String code = UserContext.getCode();
+        if (null == code) {
+            userService.addUser();
+        }
+        slimInfo.extract(book);
         return slimInfo;
+    }
+
+    public Book findById(Long bookId) {
+        return bookDao.selectByPrimaryKey(bookId);
     }
 
 

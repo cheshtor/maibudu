@@ -1,6 +1,6 @@
 package com.mabushizai.maibudu.dao;
 
-import com.mabushizai.maibudu.domain.BookDetails;
+import com.mabushizai.maibudu.domain.Book;
 import com.mabushizai.maibudu.domain.ShelfBook;
 import com.mabushizai.maibudu.dto.PageModel;
 import org.apache.ibatis.annotations.Param;
@@ -17,9 +17,7 @@ public interface ShelfBookDao {
 
     int insert(ShelfBook record);
 
-    List<BookDetails> searchBook(@Param("uid") String uid, @Param("title") String keyword, PageModel pageModel);
-
-    BookDetails getBookDetails(@Param("uid") String uid, @Param("bookId") Long bookId);
+    List<Book> searchBook(@Param("uid") String uid, @Param("title") String keyword, PageModel pageModel);
 
     ShelfBook findByUidAndBookId(@Param("uid") String uid, @Param("bookId") Long bookId);
 

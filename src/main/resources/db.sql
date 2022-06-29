@@ -22,10 +22,28 @@ CREATE TABLE `book`
 DROP TABLE IF EXISTS `shelf_book`;
 CREATE TABLE `shelf_book`
 (
-    `uid`          VARCHAR(30) COMMENT '用户ID',
-    `book_id`      BIGINT(20) COMMENT '书籍ID',
-    `read_status`  TINYINT(2) COMMENT '0 - 已读完，1 - 未读完，2 - 未读',
-    `create_date`  DATETIME COMMENT '添加时间',
-    `sys_status`   TINYINT(2) DEFAULT 0 COMMENT '0 - 正常，1 - 删除',
+    `uid`         VARCHAR(30) COMMENT '用户ID',
+    `book_id`     BIGINT(20) COMMENT '书籍ID',
+    `create_date` DATETIME COMMENT '添加时间',
+    `sys_status`  TINYINT(2) DEFAULT 0 COMMENT '0 - 正常，1 - 删除',
     PRIMARY KEY `upk_uid_bookId` (`uid`, `book_id`)
+);
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user`
+(
+    `uid`         VARCHAR(30) COMMENT '用户ID',
+    `code`        VARCHAR(8) COMMENT '用户唯一编码，用于分享等场景',
+    `create_date` DATETIME COMMENT '创建时间',
+    `sys_status`  TINYINT(2) DEFAULT 0 COMMENT '0 - 正常，1 - 删除',
+    PRIMARY KEY `pk_uid` (`uid`)
+);
+
+DROP TABLE IF EXISTS `share_shelf`;
+CREATE TABLE `share_shelf`
+(
+    `importer_id` VARCHAR(30) COMMENT '导入者 ID',
+    `exporter_id` VARCHAR(30) COMMENT '分享者 ID',
+    `create_date` DATETIME COMMENT '创建时间',
+    PRIMARY KEY `upk_importerId_exporterId` (`importer_id`, `exporter_id`)
 );
