@@ -54,7 +54,7 @@ public class ShelfBookService {
         if (StringUtils.hasLength(shareCode)) {
             User user = userService.findByCode(shareCode);
             if (null == user) {
-                throw new MaibuduException("无效的分享码");
+                throw new MaibuduException("无效的共享码");
             }
             uid = user.getUid();
         }

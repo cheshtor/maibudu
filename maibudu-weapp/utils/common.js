@@ -17,6 +17,15 @@ const gotoPage = (url, params) => {
     })
 }
 
+const showNotify = (message) => {
+    wx.showToast({
+        title: message,
+        icon: 'none',
+        duration: 2000
+    })
+}
+
 module.exports = {
-    gotoPage: gotoPage
+    gotoPage: gotoPage,
+    showNotify: showNotify
 }

@@ -11,6 +11,10 @@ Component({
         text: {
             type: String,
             value: '搜索'
+        },
+        clean: {
+            type: Boolean,
+            value: false
         }
     },
 
@@ -21,6 +25,11 @@ Component({
     methods: {
         onSearch() {
             this.triggerEvent("onSearch", {keyword: this.data.keyword}, {})
+            if (this.properties.clean) {
+                this.setData({
+                    keyword: ''
+                })
+            }
         }
     }
 })

@@ -1,3 +1,5 @@
+import {showNotify} from './common.js'
+
 export default async function invoke(obj, number = 0) {
     try {
         const result = await wx.cloud.callContainer({
@@ -7,18 +9,15 @@ export default async function invoke(obj, number = 0) {
                 'X-WX-SERVICE': 'springboot-qzpg'
             }
         })
-        console.log(`微信云托管调用结果${result.errMsg} | callid:${result.callID}`)
-        return result.data
-    } catch (e) {
-        const error = e.toString()
-        if (error.indexOf("Cloud API isn't enabled") != -1 && number < 3) {
-            return new Promise((resolve) => {
-                setTimeout(function () {
-                    resolve(that.call(obj, number + 1))
-                }, 300)
-            })
+        const resp = result.data
+        if (resp.success) {
+            return resp.data
         } else {
-            throw new Error(`微信云托管调用失败${error}`)
+            showNotify(resp.status ? '系统开小差了，请再试试！' : resp.message)
+            return
         }
+    } catch (e) {
+        showNotify('系统出现了一些小问题，不要慌！')
+        return
     }
 }

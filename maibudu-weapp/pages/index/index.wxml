@@ -19,7 +19,7 @@
         <text>我的书架</text>
     </view>
     <view class="count" bindtap="goBookshelf">
-        <text class="number">50</text>
+        <text class="number">{{bookCount}}</text>
         <text>读过的书 走过的路</text>
     </view>
 
@@ -27,9 +27,9 @@
         <text>共享书架</text>
     </view>
     <view class="share">
-        <m-search bindonSearch="importShare" placeholder="书架共享码" text="导入" left-icon="share-o"></m-search>
+        <m-search bindonSearch="importShare" placeholder="书架共享码" text="导入" left-icon="share-o" clean="true"></m-search>
         <view class="code">
-            <text>我的共享码：GXSDFLSA</text>
+            <text>我的共享码：{{shareCode}}</text>
         </view>
     </view>
 </view>

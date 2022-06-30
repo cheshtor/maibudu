@@ -32,9 +32,9 @@ public class ShareShelfService {
     @Transactional
     public boolean importShare(String shareCode) {
         User exporter = userService.findByCode(shareCode);
-        AssertUtil.notNull(exporter, "分享码不存在");
+        AssertUtil.notNull(exporter, "共享码不存在");
         ShareShelf shareShelf = shareShelfDao.selectByPrimaryKey(UserContext.getUid(), exporter.getUid());
-        AssertUtil.isTrue(null == shareShelf, "已经分享过 TA 的书籍啦");
+        AssertUtil.isTrue(null == shareShelf, "已经共享过 TA 的书籍啦");
         shareShelf = new ShareShelf();
         shareShelf.setImporterId(UserContext.getUid());
         shareShelf.setExporterId(exporter.getUid());
@@ -46,10 +46,10 @@ public class ShareShelfService {
     @Transactional
     public boolean removeShare(String shareCode) {
         User exporter = userService.findByCode(shareCode);
-        AssertUtil.notNull(exporter, "分享码不存在");
+        AssertUtil.notNull(exporter, "共享码不存在");
         String importerId = UserContext.getUid();
         ShareShelf shareShelf = shareShelfDao.selectByPrimaryKey(importerId, exporter.getUid());
-        AssertUtil.notNull(shareShelf, "对方没有向你分享过内容");
+        AssertUtil.notNull(shareShelf, "对方没有向你共享过内容");
         int rows = shareShelfDao.removeShare(importerId, exporter.getUid());
         return rows != 0;
     }
