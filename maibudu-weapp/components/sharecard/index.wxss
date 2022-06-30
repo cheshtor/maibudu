@@ -1,0 +1,31 @@
+.outer {
+    width: 100%;
+    margin-bottom: 32rpx;
+}
+
+.van-swipe-cell {
+    height: 150rpx;
+    background: #fff;
+    border-radius: 32rpx;
+}
+
+.van-swipe-cell__right {
+    background: #ff97b5;
+    border-top-right-radius: 32rpx;
+    border-bottom-right-radius: 32rpx;
+    width: 150rpx;
+    line-height: 150rpx;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 36rpx;
+}
+
+.main {
+    width: 100%;
+    line-height: 150rpx;
+    padding-left: 64rpx;
+    font-size: 32rpx;
+    color: #2f2d51;
+    font-weight: bold;
+}

@@ -14,6 +14,13 @@ Page({
   },
 
   /**
+   * 跳转共享书架页
+   */
+  goShare() {
+    gotoPage('../share/index')
+  },
+
+  /**
    * 导入共享书架
    */
   importShare(e) {

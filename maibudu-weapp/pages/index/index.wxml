@@ -23,7 +23,7 @@
         <text>读过的书 走过的路</text>
     </view>
 
-    <view class="title">
+    <view class="title" bindtap="goShare">
         <text>共享书架</text>
     </view>
     <view class="share">

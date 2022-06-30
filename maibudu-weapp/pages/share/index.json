@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+        "m-share-card": "../../components/sharecard/index"
+    }
+}
