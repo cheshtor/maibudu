@@ -2,7 +2,6 @@ package com.mabushizai.maibudu.controller;
 
 import com.mabushizai.maibudu.config.ApiResponse;
 import com.mabushizai.maibudu.domain.Book;
-import com.mabushizai.maibudu.dto.BookSlimInfo;
 import com.mabushizai.maibudu.dto.Page;
 import com.mabushizai.maibudu.dto.PageModel;
 import com.mabushizai.maibudu.service.ShelfBookService;
@@ -35,9 +34,10 @@ public class ShelfBookController {
     @GetMapping(value = "/listBook")
     public ApiResponse<Page<Book>> listBook(@RequestParam("pageNo") Long pageNo,
                                             @RequestParam("pageSize") Integer pageSize,
+                                            @RequestParam(value = "shareCode", required = false) String shareCode,
                                             @RequestParam(value = "keyword", required = false) String keyword) {
         PageModel pageModel = new PageModel(pageNo, pageSize);
-        Page<Book> page = shelfBookService.list(pageModel, keyword);
+        Page<Book> page = shelfBookService.list(pageModel, shareCode, keyword);
         return ApiResponse.ok(page);
     }
 

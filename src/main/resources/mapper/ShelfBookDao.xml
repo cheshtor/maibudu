@@ -12,106 +12,72 @@
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        `uid`, book_id, create_date, sys_status
+        `uid`,
+        book_id,
+        create_date,
+        sys_status
     </sql>
 
     <select id="searchBook" resultMap="com.mabushizai.maibudu.dao.BookDao.BaseResultMap">
-        SELECT
-            b.`id`,
-            b.`uid`,
-            b.`title`,
-            b.subtitle,
-            b.author,
-            b.publish_date,
-            b.publisher,
-            b.isbn,
-            b.summary,
-            b.pages,
-            b.price,
-            b.binding,
-            b.cover
-        FROM
-            book AS b,
-            shelf_book AS sb,
-            share_shelf AS ss
-        WHERE
-            b.id = sb.book_id
-          AND ss.importer_id = #{uid}
-          AND (
-                sb.uid = ss.exporter_id
-                OR
-                sb.uid = #{uid}
+        SELECT b.`id`,
+               sb.`uid`,
+               b.`title`,
+               b.subtitle,
+               b.author,
+               b.publish_date,
+               b.publisher,
+               b.isbn,
+               b.summary,
+               b.pages,
+               b.price,
+               b.binding,
+               b.cover
+        FROM shelf_book AS sb
+                 LEFT JOIN book AS b ON sb.book_id = b.id
+        WHERE (
+                    sb.uid IN (SELECT exporter_id
+                               FROM share_shelf
+                               WHERE importer_id = #{uid})
+                OR sb.uid = #{uid}
             )
-          AND b.sys_status = 0
           AND sb.sys_status = 0
-          <if test="title != null and title != ''">
+          AND b.sys_status = 0
+        <if test="title != null and title != ''">
             AND b.title LIKE CONCAT('%', #{title}, '%')
-          </if>
-        ORDER BY
-            b.uid DESC
-
-
-<!--        SELECT-->
-<!--        u.code,-->
-<!--        b.*-->
-<!--        FROM-->
-<!--        shelf_book AS sb-->
-<!--        LEFT JOIN book AS b-->
-<!--        ON sb.book_id = b.id-->
-<!--        LEFT JOIN `user` AS u-->
-<!--        ON u.uid = sb.uid-->
-<!--        WHERE-->
-<!--        sb.uid IN (-->
-<!--        SELECT-->
-<!--        DISTINCT(exporter_id)-->
-<!--        FROM-->
-<!--        share_shelf-->
-<!--        WHERE-->
-<!--        importer_id = 'oso0q5VABTWlDGMSlCNuUSx6BOSA'-->
-<!--        )-->
-<!--        OR sb.uid = 'oso0q5VABTWlDGMSlCNuUSx6BOSA'-->
+        </if>
+        ORDER BY sb.uid DESC
     </select>
 
     <select id="findByUidAndBookId" parameterType="map" resultMap="BaseResultMap">
         <!--@mbg.generated-->
         SELECT
-            <include refid="Base_Column_List"/>
-        FROM
-            shelf_book
-        WHERE
-            `uid` = #{uid}
-            AND
-            book_id = #{bookId}
-            AND
-            `sys_status` = 0
+        <include refid="Base_Column_List"/>
+        FROM shelf_book
+        WHERE `uid` = #{uid}
+          AND book_id = #{bookId}
+          AND `sys_status` = 0
     </select>
 
     <update id="removeBook">
         UPDATE
             shelf_book
-        SET
-            sys_status = 1
-        WHERE
-            `uid` = #{uid}
-            AND
-            `book_id` = #{bookId}
+        SET sys_status = 1
+        WHERE `uid` = #{uid}
+          AND `book_id` = #{bookId}
     </update>
 
     <select id="countBook" resultType="java.lang.Long">
-        SELECT
-            count(DISTINCT(book_id))
-        FROM
-            shelf_book
-        WHERE
-                uid IN (
-                SELECT
-                    DISTINCT(exporter_id)
-                FROM
-                    share_shelf
-                WHERE
-                    importer_id = #{uid}
+        SELECT COUNT(1)
+        FROM shelf_book AS sb
+                 LEFT JOIN book AS b ON sb.book_id = b.id
+        WHERE (
+                    sb.uid IN (SELECT exporter_id
+                               FROM share_shelf
+                               WHERE importer_id = #{uid})
+                OR sb.uid = #{uid}
             )
-           OR uid = #{uid}
+          AND sb.sys_status = 0
+          AND b.sys_status = 0
     </select>
 
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.ShelfBook">

@@ -5,12 +5,14 @@ import com.mabushizai.maibudu.constants.SysStatusEnum;
 import com.mabushizai.maibudu.dao.ShelfBookDao;
 import com.mabushizai.maibudu.domain.Book;
 import com.mabushizai.maibudu.domain.ShelfBook;
+import com.mabushizai.maibudu.domain.User;
 import com.mabushizai.maibudu.dto.Page;
 import com.mabushizai.maibudu.dto.PageModel;
 import com.mabushizai.maibudu.utils.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -26,6 +28,9 @@ public class ShelfBookService {
 
     @Resource
     private ShelfBookDao shelfBookDao;
+
+    @Resource
+    private UserService userService;
 
     @Transactional
     public boolean addBook(Long bookId) {
@@ -43,8 +48,16 @@ public class ShelfBookService {
         return rows != 0;
     }
 
-    public Page<Book> list(PageModel pageModel, String keyword) {
+    public Page<Book> list(PageModel pageModel, String shareCode, String keyword) {
         String uid = UserContext.getUid();
+        // 如果有共享码，则使用共享码查询到对应的 uid
+        if (StringUtils.hasLength(shareCode)) {
+            User user = userService.findByCode(shareCode);
+            if (null == user) {
+                throw new MaibuduException("无效的分享码");
+            }
+            uid = user.getUid();
+        }
         List<Book> bookDetails = shelfBookDao.searchBook(uid, keyword, pageModel);
         return new Page<>(pageModel, bookDetails);
     }
