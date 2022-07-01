@@ -41,7 +41,7 @@ public class BookService {
         if (null != book) {
             // 判断书籍状态，被禁用的书籍信息不允许使用、也不允许添加
             if (book.getSysStatus().equals(SysStatusEnum.NORMAL.getValue())) {
-                slimInfo.extract(book);
+                slimInfo.doSlim(book);
                 return slimInfo;
             }
             throw new MaibuduException("暂不支持此书籍入库");
@@ -65,7 +65,7 @@ public class BookService {
         if (null == code) {
             userService.addUser();
         }
-        slimInfo.extract(book);
+        slimInfo.doSlim(book);
         return slimInfo;
     }
 

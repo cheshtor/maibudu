@@ -32,4 +32,17 @@
             <text>我的共享码：{{shareCode}}</text>
         </view>
     </view>
+    <!-- <van-dialog id="van-dialog"/> -->
+    <m-dialog 
+        show="{{showBookScanResultDialog}}"
+        bindonclose="onBookScanResultDialogClose"
+        bindonconfirm="onBookScanResultDialogConfirm"
+        title="书籍信息"
+        confirmBtnText="添加">
+
+        <view slot="content" class="dialog-content">
+            <m-book-card title="{{bookSlimInfo.title}}" author="{{bookSlimInfo.author}}" publisher="{{bookSlimInfo.publisher}}" cover="{{bookSlimInfo.cover}}" />
+        </view>
+    </m-dialog>
 </view>
+

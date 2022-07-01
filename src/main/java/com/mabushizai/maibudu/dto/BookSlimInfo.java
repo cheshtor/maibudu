@@ -22,21 +22,16 @@ public class BookSlimInfo implements Serializable {
 
     private String author;
 
-    private String cover;
+    private String publisher;
 
-    public void extract(Book book) {
-        this.id = book.getId();
-        this.title = book.getTitle();
-        this.subTitle = book.getSubtitle();
-        this.author = book.getAuthor();
-        this.cover = book.getCover();
-    }
+    private String cover;
 
     public void doSlim(Book book) {
         this.id = book.getId();
         this.title = book.getTitle();
         this.subTitle = book.getSubtitle();
         this.author = book.getAuthor();
+        this.publisher = book.getPublisher();
         this.cover = book.getCover();
     }
 

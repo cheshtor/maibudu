@@ -4,25 +4,51 @@ import {
     showNotify
 } from '../../utils/common'
 
-
 Page({
     data: {
         shareCode: '-',
-        bookCount: 0
+        bookCount: 0,
+        showBookScanResultDialog: false,
+        bookSlimInfo: {
+            title: '',
+            author: '',
+            publisher: '',
+            cover: ''
+        }
     },
 
     /**
      * 跳转我的书架页
      */
     goBookshelf() {
-        gotoPage('../bookshelf/index')
+        // gotoPage('../bookshelf/index')
+        this.setData({
+            showBookScanResultDialog: true
+        })
     },
+    
 
     /**
      * 跳转共享书架页
      */
     goShare() {
         gotoPage('../share/index')
+    },
+
+    /**
+     * 书籍信息确认弹窗关闭时
+     */
+    onBookScanResultDialogClose() {
+        this.setData({
+            showBookScanResultDialog: false
+        })
+    },
+    
+    /**
+     * 籍信息确认弹窗确认时
+     */
+    onBookScanResultDialogConfirm() {
+        console.log('书籍加入书架')
     },
 
     /**
@@ -45,14 +71,23 @@ Page({
      * 调起相机扫码
      */
     scanBook() {
+        let that = this
         wx.scanCode({
             onlyFromCamera: false, // 允许从相册选择照片
             scanType: ['barCode'], // 只允许扫条形码，不能扫二维码
             success: async function (res) {
-                const response = await invoke({
+                const book = await invoke({
                     path: '/api/book/scan?isbn=' + res.result
                 })
-                console.log(response)
+                that.setData({
+                    bookSlimInfo: {
+                        name: book.name,
+                        author: book.author,
+                        publisher: book.publisher,
+                        cover: book.cover
+                    },
+                    showBookScanResultDialog: true
+                })
             },
             fail: function () {
 
