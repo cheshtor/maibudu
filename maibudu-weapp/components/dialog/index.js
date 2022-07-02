@@ -7,7 +7,10 @@ Component({
             type: Boolean,
             value: false
         },
-        title: String,
+        title: {
+            type: String,
+            value: '确认吗？'
+        },
         confirmBtnText: {
             type: String,
             value: '确认'

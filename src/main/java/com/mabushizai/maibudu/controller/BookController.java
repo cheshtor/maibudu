@@ -1,5 +1,6 @@
 package com.mabushizai.maibudu.controller;
 
+import com.mabushizai.maibudu.annotations.RequireRegister;
 import com.mabushizai.maibudu.config.ApiResponse;
 import com.mabushizai.maibudu.domain.Book;
 import com.mabushizai.maibudu.dto.BookSlimInfo;
@@ -23,6 +24,7 @@ public class BookController {
     @Resource
     private BookService bookService;
 
+    @RequireRegister(require = true)
     @GetMapping(value = "/scan")
     public ApiResponse<BookSlimInfo> scanBook(@RequestParam("isbn") String isbn) {
         AssertUtil.notEmpty(isbn, "书籍 ISBN 不能为空");

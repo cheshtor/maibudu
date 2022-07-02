@@ -1,8 +1,10 @@
 package com.mabushizai.maibudu.service;
 
+import com.mabushizai.maibudu.config.MaibuduException;
 import com.mabushizai.maibudu.constants.SysStatusEnum;
 import com.mabushizai.maibudu.dao.UserDao;
 import com.mabushizai.maibudu.domain.User;
+import com.mabushizai.maibudu.dto.UserRegisterRequest;
 import com.mabushizai.maibudu.utils.AssertUtil;
 import com.mabushizai.maibudu.utils.StringUtil;
 import com.mabushizai.maibudu.utils.UserContext;
@@ -25,16 +27,21 @@ public class UserService {
     private UserDao userDao;
 
     @Transactional
-    public boolean addUser() {
+    public User addUser(UserRegisterRequest request) {
         User user = new User();
         String uid = UserContext.getUid();
         user.setUid(uid);
         String code = this.getCode();
         user.setCode(code);
+        user.setNickname(request.getNickname());
+        user.setAvatar(request.getAvatar());
         user.setCreateDate(LocalDateTime.now());
         user.setSysStatus(SysStatusEnum.NORMAL.getValue());
         int rows = userDao.insert(user);
-        return rows != 0;
+        if (rows != 0) {
+            return user;
+        }
+        throw new MaibuduException("新用户注册失败");
     }
 
     public User findByUid() {
@@ -43,7 +50,7 @@ public class UserService {
     }
 
     public User findByCode(String code) {
-        AssertUtil.notEmpty(code, "用户书架共享码不能为空");
+        AssertUtil.notEmpty(code, "共享码不能为空");
         return userDao.findByCode(code);
     }
 

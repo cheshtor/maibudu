@@ -1,13 +1,15 @@
 import invoke from '../../utils/http'
 import {
     gotoPage,
-    showNotify
+    showNotify,
+    showError
 } from '../../utils/common'
 
 Page({
     data: {
         shareCode: '-',
         bookCount: 0,
+        showBookScanOverlay: false,
         showBookScanResultDialog: false,
         bookSlimInfo: {
             title: '',
@@ -21,10 +23,7 @@ Page({
      * 跳转我的书架页
      */
     goBookshelf() {
-        // gotoPage('../bookshelf/index')
-        this.setData({
-            showBookScanResultDialog: true
-        })
+        gotoPage('../bookshelf/index')
     },
     
 
@@ -40,7 +39,13 @@ Page({
      */
     onBookScanResultDialogClose() {
         this.setData({
-            showBookScanResultDialog: false
+            showBookScanResultDialog: false,
+            bookSlimInfo: {
+                title: '',
+                author: '',
+                publisher: '',
+                cover: ''
+            }
         })
     },
     
@@ -76,21 +81,25 @@ Page({
             onlyFromCamera: false, // 允许从相册选择照片
             scanType: ['barCode'], // 只允许扫条形码，不能扫二维码
             success: async function (res) {
+                that.setData({
+                    showBookScanOverlay: true
+                })
                 const book = await invoke({
                     path: '/api/book/scan?isbn=' + res.result
                 })
                 that.setData({
                     bookSlimInfo: {
-                        name: book.name,
-                        author: book.author,
-                        publisher: book.publisher,
+                        title: book.title,
+                        author: book.author || '未知',
+                        publisher: book.publisher || '未知',
                         cover: book.cover
                     },
-                    showBookScanResultDialog: true
+                    showBookScanResultDialog: true,
+                    showBookScanOverlay: false
                 })
             },
             fail: function () {
-
+                showError('书籍扫描失败，请再试试~')
             }
         })
     },

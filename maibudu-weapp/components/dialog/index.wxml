@@ -1,10 +1,11 @@
 <van-dialog 
     use-slot 
-    title="{{title}}" 
+    title="{{ title }}" 
     show="{{ show }}" 
-    confirm-button-text="{{confirmBtnText}}"
+    confirm-button-text="{{ confirmBtnText }}"
     confirm-button-color="#ff97b5"
     show-cancel-button 
+    cancel-button-color="#2f2d51"
     bind:close="onClose"
     bind:confirm="onConfirm">
     <slot name="content"></slot>

@@ -1,5 +1,6 @@
 package com.mabushizai.maibudu.controller;
 
+import com.mabushizai.maibudu.annotations.RequireRegister;
 import com.mabushizai.maibudu.config.ApiResponse;
 import com.mabushizai.maibudu.domain.ShareShelf;
 import com.mabushizai.maibudu.dto.Page;
@@ -23,12 +24,14 @@ public class ShareController {
     @Resource
     private ShareShelfService shareShelfService;
 
+    @RequireRegister(require = true)
     @GetMapping(value = "/import")
     public ApiResponse<Boolean> importShare(@RequestParam("shareCode") String shareCode) {
         boolean success = shareShelfService.importShare(shareCode);
         return ApiResponse.ok(success);
     }
 
+    @RequireRegister(require = true)
     @GetMapping(value = "/remove")
     public ApiResponse<Boolean> removeShare(@RequestParam("shareCode") String shareCode) {
         boolean success = shareShelfService.removeShare(shareCode);

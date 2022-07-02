@@ -34,6 +34,8 @@ CREATE TABLE `user`
 (
     `uid`         VARCHAR(30) COMMENT '用户ID',
     `code`        VARCHAR(8) COMMENT '用户唯一编码，用于分享等场景',
+    `nickname`    VARCHAR(64) COMMENT '昵称',
+    `avatar`      VARCHAR(1024) COMMENT '头像',
     `create_date` DATETIME COMMENT '创建时间',
     `sys_status`  TINYINT(2) DEFAULT 0 COMMENT '0 - 正常，1 - 删除',
     PRIMARY KEY `pk_uid` (`uid`)

@@ -5,13 +5,15 @@
         <!--@mbg.generated-->
         <!--@Table `user`-->
         <id column="uid" property="uid"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
         <result column="code" property="code"/>
         <result column="create_date" property="createDate"/>
         <result column="sys_status" property="sysStatus"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        `uid`, `code`, create_date, sys_status
+        `uid`, `code`, `nickname`, `avatar`, create_date, sys_status
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -22,8 +24,8 @@
     </select>
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.User">
         <!--@mbg.generated-->
-        insert into `user` (`uid`, code, create_date, sys_status)
-        values (#{uid}, #{code}, #{createDate}, #{sysStatus})
+        insert into `user` (`uid`, `code`, `nickname`, `avatar`, create_date, sys_status)
+        values (#{uid}, #{code}, #{nickname}, #{avatar}, #{createDate}, #{sysStatus})
     </insert>
 
     <select id="countByCode" resultType="java.lang.Integer">

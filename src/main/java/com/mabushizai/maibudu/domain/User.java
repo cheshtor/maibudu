@@ -23,6 +23,16 @@ public class User {
     private String code;
 
     /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
     * 创建时间
     */
     private LocalDateTime createDate;

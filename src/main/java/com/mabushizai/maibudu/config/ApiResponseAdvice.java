@@ -1,5 +1,6 @@
 package com.mabushizai.maibudu.config;
 
+import com.mabushizai.maibudu.annotations.RequireRegister;
 import com.mabushizai.maibudu.domain.User;
 import com.mabushizai.maibudu.service.UserService;
 import com.mabushizai.maibudu.utils.UserContext;
@@ -8,6 +9,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -15,6 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
@@ -48,6 +51,9 @@ public class ApiResponseAdvice {
             }
             UserContext.setUid(uid);
             User user = userService.findByUid();
+            if (null == user && isRequireRegister(pjp)) {
+                return ApiResponse.error("非法用户访问");
+            }
             UserContext.setUser(user);
             result = (ApiResponse<?>) pjp.proceed();
             log.info("{} request {} success.", uid, pjp.getSignature());
@@ -58,6 +64,16 @@ public class ApiResponseAdvice {
             UserContext.remove();
         }
         return result;
+    }
+
+    public boolean isRequireRegister(ProceedingJoinPoint pjp) {
+        MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
+        Method method = methodSignature.getMethod();
+        RequireRegister requireRegister = method.getAnnotation(RequireRegister.class);
+        if (null != requireRegister) {
+            return requireRegister.require();
+        }
+        return false;
     }
 
 }

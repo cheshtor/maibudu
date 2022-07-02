@@ -29,9 +29,6 @@ public class BookService {
     @Resource
     private BookDao bookDao;
 
-    @Resource
-    private UserService userService;
-
     @Transactional
     public BookSlimInfo scanBook(String isbn) {
         BookSlimInfo slimInfo = new BookSlimInfo();
@@ -59,11 +56,6 @@ public class BookService {
         int rows = bookDao.insert(book);
         if (rows <= 0) {
             throw new MaibuduException("书籍入库失败，请重试！");
-        }
-        // 新用户入库
-        String code = UserContext.getCode();
-        if (null == code) {
-            userService.addUser();
         }
         slimInfo.doSlim(book);
         return slimInfo;

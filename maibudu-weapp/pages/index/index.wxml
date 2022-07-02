@@ -1,10 +1,11 @@
 <view>
     <view class="container">
+        <!-- 标语 -->
         <view class="header">
             <text>方寸之间</text>
             <text>每一本书都值得被看见</text>
         </view>
-        
+        <!-- 扫码按钮 -->
         <view class="scan">
             <van-button 
                 bind:click="scanBook"
@@ -14,7 +15,7 @@
                 round="true">添加书籍</van-button>
         </view>
     </view>
-
+    <!-- 我的书架 -->
     <view class="title">
         <text>我的书架</text>
     </view>
@@ -22,7 +23,7 @@
         <text class="number">{{bookCount}}</text>
         <text>读过的书 走过的路</text>
     </view>
-
+    <!-- 共享书架 -->
     <view class="title" bindtap="goShare">
         <text>共享书架</text>
     </view>
@@ -32,11 +33,11 @@
             <text>我的共享码：{{shareCode}}</text>
         </view>
     </view>
-    <!-- <van-dialog id="van-dialog"/> -->
+    <!-- 书籍信息确认弹窗 -->
     <m-dialog 
         show="{{showBookScanResultDialog}}"
-        bindonclose="onBookScanResultDialogClose"
-        bindonconfirm="onBookScanResultDialogConfirm"
+        bind:onClose="onBookScanResultDialogClose"
+        bind:onConfirm="onBookScanResultDialogConfirm"
         title="书籍信息"
         confirmBtnText="添加">
 
@@ -44,5 +45,9 @@
             <m-book-card title="{{bookSlimInfo.title}}" author="{{bookSlimInfo.author}}" publisher="{{bookSlimInfo.publisher}}" cover="{{bookSlimInfo.cover}}" />
         </view>
     </m-dialog>
+    <!-- 扫描后等待书籍信息加载回来时的遮罩 -->
+    <van-overlay show="{{ showBookScanOverlay }}" />
+    <!-- 提示信息 -->
+    <van-notify id="van-notify" />
 </view>
 

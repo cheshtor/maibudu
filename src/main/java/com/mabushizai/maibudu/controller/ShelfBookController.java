@@ -1,5 +1,6 @@
 package com.mabushizai.maibudu.controller;
 
+import com.mabushizai.maibudu.annotations.RequireRegister;
 import com.mabushizai.maibudu.config.ApiResponse;
 import com.mabushizai.maibudu.domain.Book;
 import com.mabushizai.maibudu.dto.Page;
@@ -24,6 +25,7 @@ public class ShelfBookController {
     @Resource
     private ShelfBookService shelfBookService;
 
+    @RequireRegister(require = true)
     @GetMapping(value = "/addBook")
     public ApiResponse<Boolean> addBook(@RequestParam("bookId") Long bookId) {
         AssertUtil.notNull(bookId, "书籍 ID 不能为空");
@@ -41,6 +43,7 @@ public class ShelfBookController {
         return ApiResponse.ok(page);
     }
 
+    @RequireRegister(require = true)
     @GetMapping(value = "/remove")
     public ApiResponse<Boolean> removeBook(@RequestParam("bookId") Long bookId) {
         AssertUtil.notNull(bookId, "书籍 ID 不能为空");

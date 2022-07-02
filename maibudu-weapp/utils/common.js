@@ -1,3 +1,4 @@
+import Notify from '@vant/weapp/notify/notify'
 /**
  * 页面跳转
  */
@@ -17,15 +18,26 @@ const gotoPage = (url, params) => {
     })
 }
 
-const showNotify = (message) => {
-    wx.showToast({
-        title: message,
-        icon: 'none',
-        duration: 2000
+const showNotify = (message, selector = '#van-notify') => {
+    Notify({
+        message: message,
+        background: '#93d8f8',
+        color: '#2f2d51',
+        selector: selector
+    })
+}
+
+const showError = (message, selector = '#van-notify') => {
+    Notify({
+        message: message,
+        background: '#ff97b5',
+        color: '#2f2d51',
+        selector: selector
     })
 }
 
 module.exports = {
     gotoPage: gotoPage,
-    showNotify: showNotify
+    showNotify: showNotify,
+    showError: showError
 }

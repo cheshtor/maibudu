@@ -3,6 +3,8 @@
     "van-button": "@vant/weapp/button/index",
     "van-field": "@vant/weapp/field/index",
     "van-icon": "@vant/weapp/icon/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "van-notify": "@vant/weapp/notify/index",
     "m-search": "../../components/search/index",
     "m-dialog": "../../components/dialog/index",
     "m-book-card": "../../components/bookcard/index"

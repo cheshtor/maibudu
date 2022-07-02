@@ -2,10 +2,9 @@ package com.mabushizai.maibudu.controller;
 
 import com.mabushizai.maibudu.config.ApiResponse;
 import com.mabushizai.maibudu.domain.User;
+import com.mabushizai.maibudu.dto.UserRegisterRequest;
 import com.mabushizai.maibudu.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -20,14 +19,16 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping(value = "/shareCode")
-    public ApiResponse<String> getShareCode() {
+    @PostMapping(value = "/register")
+    public ApiResponse<User> register(@RequestBody UserRegisterRequest request) {
+        User user = userService.addUser(request);
+        return ApiResponse.ok(user);
+    }
+
+    @GetMapping(value = "/get")
+    public ApiResponse<User> get() {
         User user = userService.findByUid();
-        if (null == user) {
-            return ApiResponse.ok("");
-        } else {
-            return ApiResponse.ok(user.getCode());
-        }
+        return ApiResponse.ok(user);
     }
 
 }
