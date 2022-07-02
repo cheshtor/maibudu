@@ -4,12 +4,10 @@ import {
     showNotify,
     showError
 } from '../../utils/common'
-const app = getApp()
 Page({
     data: {
         shareCode: '-',
         bookCount: 0,
-        isRegistered: app.globalData.isRegistered,
         showBookScanOverlay: false,
         showBookScanResultDialog: false,
         bookSlimInfo: {
@@ -118,11 +116,31 @@ Page({
     },
 
     /**
-     * 获取微信头像回调
+     * 获取微信头像回调，上传到云存储，换取标准URL
      */
     onChooseAvatar(e) {
-        this.setData({
-            avatarUrl: e.detail.avatarUrl
+        let that = this
+        wx.cloud.uploadFile({
+            cloudPath: 'avatar/' + wx.getStorageSync('uid') + '.jpeg',
+            filePath: e.detail.avatarUrl,
+            success: function(res) {
+                const fileID = res.fileID
+                wx.cloud.getTempFileURL({
+                    fileList: [fileID],
+                    success: function(res) {
+                        const url = res.fileList[0].tempFileURL
+                        that.setData({
+                            avatarUrl: url
+                        })
+                    },
+                    fail: function(err) {
+                        showError('头像保存失败了，请再试试~')
+                    }
+                })
+            },
+            fail: function(err) {
+                showError('头像保存失败啦，请再试试~')
+            }
         })
     },
 
@@ -152,7 +170,6 @@ Page({
             wx.setStorageSync('shareCode', user.code)
             wx.setStorageSync('nickname', user.nickname)
             wx.setStorageSync('avatar', user.avatar)
-            app.globalData.isRegistered = true
             this.loadShareCode()
         }
     },

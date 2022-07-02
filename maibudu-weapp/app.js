@@ -21,6 +21,7 @@ App({
         wx.removeStorageSync('shareCode')
         wx.removeStorageSync('nickname')
         wx.removeStorageSync('avatar')
+        wx.removeStorageSync('uid')
         const user = await invoke({
             path: '/api/user/get'
         })
@@ -28,7 +29,15 @@ App({
             wx.setStorageSync('shareCode', user.code)
             wx.setStorageSync('nickname', user.nickname)
             wx.setStorageSync('avatar', user.avatar)
+            wx.setStorageSync('uid', user.uid)
             this.globalData.isRegistered = true
+        } else {
+            const openid = await invoke({
+                path: '/api/user/openid'
+            })
+            if (openid) {
+                wx.setStorageSync('uid', openid)
+            }
         }
     }
 })

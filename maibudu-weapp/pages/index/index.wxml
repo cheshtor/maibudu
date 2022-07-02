@@ -8,14 +8,14 @@
         <!-- 扫码按钮 -->
         <view class="scan">
             <van-button 
-                wx:if="{{isRegistered}}"
+                wx:if="{{shareCode != '-'}}"
                 bind:click="scanBook"
                 color="#93d8f8" 
                 custom-style="color:#2f2d51;font-weight:bold;" 
                 icon="scan"
                 round="true">添加书籍</van-button>
             <van-button 
-                wx:if="{{!isRegistered}}"
+                wx:if="{{shareCode == '-'}}"
                 bind:click="doRegister"
                 color="#93d8f8" 
                 custom-style="color:#2f2d51;font-weight:bold;" 
@@ -67,6 +67,7 @@
             <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
                 <image class="avatar" src="{{avatarUrl}}"></image>
             </button>
+            <!-- TODO 双向绑定无法获取自动填入的内容 -->
             <van-field 
                 type="nickname" 
                 center="true"
