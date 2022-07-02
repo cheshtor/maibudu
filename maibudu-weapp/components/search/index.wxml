@@ -1,5 +1,5 @@
 <view class="input">
-    <van-field model:value="{{keyword}}" custom-style="background:#fff;min-height:42rpx;border-radius:32rpx;" border="true" center="true" placeholder="{{placeholder}}" input-align="center">
+    <van-field model:value="{{keyword}}" custom-style="background:#fff;min-height:42rpx;border-radius:32rpx;" input-align="center" border="true" center="true" placeholder="{{placeholder}}" input-align="center">
         <van-icon slot="left-icon" name="{{leftIcon}}" color="#2f2d51"></van-icon>
         <van-button bindtap="onSearch" slot="button" color="#93d8f8" custom-style="color:#2f2d51;font-weight:bold;" round="true">{{text}}</van-button>
     </van-field>

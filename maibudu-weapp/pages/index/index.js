@@ -4,11 +4,12 @@ import {
     showNotify,
     showError
 } from '../../utils/common'
-
+const app = getApp()
 Page({
     data: {
         shareCode: '-',
         bookCount: 0,
+        isRegistered: app.globalData.isRegistered,
         showBookScanOverlay: false,
         showBookScanResultDialog: false,
         bookSlimInfo: {
@@ -16,7 +17,10 @@ Page({
             author: '',
             publisher: '',
             cover: ''
-        }
+        },
+        showRegisterDialog: false,
+        avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
+        nickname: ''
     },
 
     /**
@@ -50,7 +54,7 @@ Page({
     },
     
     /**
-     * 籍信息确认弹窗确认时
+     * 书籍信息确认弹窗确认时
      */
     onBookScanResultDialogConfirm() {
         console.log('书籍加入书架')
@@ -102,6 +106,55 @@ Page({
                 showError('书籍扫描失败，请再试试~')
             }
         })
+    },
+
+    /**
+     * 用户注册弹窗
+     */
+    doRegister() {
+        this.setData({
+            showRegisterDialog: true
+        })
+    },
+
+    /**
+     * 获取微信头像回调
+     */
+    onChooseAvatar(e) {
+        this.setData({
+            avatarUrl: e.detail.avatarUrl
+        })
+    },
+
+    /**
+     * 用户注册弹窗关闭
+     */
+    onRegisterDialogClose() {
+        this.setData({
+            avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
+            nickname: ''
+        })
+    },
+
+    /**
+     * 用户注册弹窗确认
+     */
+    async onRegisterDialogConfirm() {
+        const user = await invoke({
+            path: '/api/user/register',
+            method: 'POST',
+            data: {
+                nickname: this.data.nickname,
+                avatar: this.data.avatarUrl
+            }
+        })
+        if (user) {
+            wx.setStorageSync('shareCode', user.code)
+            wx.setStorageSync('nickname', user.nickname)
+            wx.setStorageSync('avatar', user.avatar)
+            app.globalData.isRegistered = true
+            this.loadShareCode()
+        }
     },
 
     onLoad() {

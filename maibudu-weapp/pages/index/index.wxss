@@ -75,3 +75,28 @@
 .dialog-content {
     margin: 32rpx auto;
 }
+
+.register-content {
+    width: 85%;
+    margin: 32rpx auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-wrapper {
+    padding: 0;
+    width: 100rpx !important;
+    border-radius: 8px;
+  }
+  
+.avatar {
+    display: block;
+    width: 100rpx;
+    height: 100rpx;
+}
+
+.nickname {
+    width: 100%;
+    margin-top: 24rpx;
+}

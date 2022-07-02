@@ -28,8 +28,10 @@ public class UserService {
 
     @Transactional
     public User addUser(UserRegisterRequest request) {
-        User user = new User();
         String uid = UserContext.getUid();
+        User user = userDao.selectByPrimaryKey(uid);
+        AssertUtil.isTrue(user == null, "您已经注册过啦~");
+        user = new User();
         user.setUid(uid);
         String code = this.getCode();
         user.setCode(code);

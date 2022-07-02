@@ -2,9 +2,11 @@ import {showError} from './common.js'
 
 export default async function invoke(obj, number = 0) {
     try {
+        if (!obj.method) {
+            obj.method = 'GET'
+        }
         const result = await wx.cloud.callContainer({
-            path: obj.path,
-            method: obj.method || 'GET',
+            ...obj,
             header: {
                 'X-WX-SERVICE': 'springboot-qzpg'
             }

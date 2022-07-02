@@ -8,11 +8,19 @@
         <!-- 扫码按钮 -->
         <view class="scan">
             <van-button 
+                wx:if="{{isRegistered}}"
                 bind:click="scanBook"
                 color="#93d8f8" 
                 custom-style="color:#2f2d51;font-weight:bold;" 
                 icon="scan"
                 round="true">添加书籍</van-button>
+            <van-button 
+                wx:if="{{!isRegistered}}"
+                bind:click="doRegister"
+                color="#93d8f8" 
+                custom-style="color:#2f2d51;font-weight:bold;" 
+                icon="user-o"
+                round="true">立即开始</van-button>
         </view>
     </view>
     <!-- 我的书架 -->
@@ -47,6 +55,27 @@
     </m-dialog>
     <!-- 扫描后等待书籍信息加载回来时的遮罩 -->
     <van-overlay show="{{ showBookScanOverlay }}" />
+    <!-- 用户信息获取弹窗 -->
+    <m-dialog 
+        show="{{showRegisterDialog}}"
+        bind:onClose="onRegisterDialogClose"
+        bind:onConfirm="onRegisterDialogConfirm"
+        title="授权微信昵称和头像"
+        confirmBtnText="注册">
+
+        <view slot="content" class="register-content">
+            <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+                <image class="avatar" src="{{avatarUrl}}"></image>
+            </button>
+            <van-field 
+                type="nickname" 
+                center="true"
+                input-align="center"
+                class="nickname" 
+                model:value="{{nickname}}" 
+                placeholder="点击获取微信昵称" />
+        </view>
+    </m-dialog>
     <!-- 提示信息 -->
     <van-notify id="van-notify" />
 </view>

@@ -4,6 +4,7 @@ import com.mabushizai.maibudu.config.ApiResponse;
 import com.mabushizai.maibudu.domain.User;
 import com.mabushizai.maibudu.dto.UserRegisterRequest;
 import com.mabushizai.maibudu.service.UserService;
+import com.mabushizai.maibudu.utils.UserContext;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,6 +30,11 @@ public class UserController {
     public ApiResponse<User> get() {
         User user = userService.findByUid();
         return ApiResponse.ok(user);
+    }
+
+    @GetMapping(value = "/openid")
+    public ApiResponse<String> openId() {
+        return ApiResponse.ok(UserContext.getUid());
     }
 
 }
