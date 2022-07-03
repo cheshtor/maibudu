@@ -3,16 +3,7 @@
         <m-search bindonSearch="searchBooks" placeholder="我的书架" text="查找" left-icon="search"></m-search>
     </view>
 
-    <scroll-view scroll-y class="bookshelf">
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
-        <m-book-card title="世界是如何思考的" author="[英] 朱利安·巴吉尼" publisher="民主与建设出版社" cover="https://img1.doubanio.com/view/subject/m/public/s34187887.jpg" />
+    <scroll-view bindscrolltolower="onScrollToBottom" scroll-y class="bookshelf">
+        <m-book-card wx:for="{{books}}" wx:key="id" title="{{item.title}}" author="{{item.author}}" publisher="{{item.publisher}}" cover="{{item.cover}}" />
     </scroll-view>
 </view>

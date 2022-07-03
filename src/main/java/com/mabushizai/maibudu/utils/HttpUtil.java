@@ -2,6 +2,7 @@ package com.mabushizai.maibudu.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.mabushizai.maibudu.config.MaibuduException;
 import com.mabushizai.maibudu.dto.JikeBookInfo;
 import com.mabushizai.maibudu.dto.JvHeBookInfo;
 import com.mabushizai.maibudu.dto.TempAuth;
@@ -58,10 +59,10 @@ public class HttpUtil {
                 return responseBody.string();
             }
             log.error("GET {} 请求未返回数据。", url);
-            throw new RuntimeException(String.format("GET %s 请求未返回数据", url));
+            throw new MaibuduException(String.format("GET %s 请求未返回数据", url));
         } catch (Throwable e) {
             log.error("GET {} 请求失败。", url, e);
-            throw new RuntimeException(String.format("GET %s 请求失败。", url));
+            throw new MaibuduException(String.format("GET %s 请求失败。", url));
         }
     }
 
@@ -119,7 +120,7 @@ public class HttpUtil {
             }
             String errorMessage = jsonObject.getString("reason");
             log.error("[聚合]获取图书信息失败。第三方错误码：{}，第三方错误信息：{}, ISBN：{}", errorCode, errorMessage, isbn);
-            throw new RuntimeException(String.format("[聚合]获取图书信息失败。第三方错误码：%s，第三方错误信息：%s，ISBN：%s", errorCode, errorMessage, isbn));
+            throw new MaibuduException(String.format("获取图书信息失败。错误码：%s", errorCode));
         }
         return JSON.parseObject(jsonObject.getString("result"), JvHeBookInfo.class);
     }

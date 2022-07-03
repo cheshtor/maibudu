@@ -19,15 +19,15 @@ Component({
     },
 
     data: {
-        keyword: ''
+        keywords: ''
     },
 
     methods: {
         onSearch() {
-            this.triggerEvent("onSearch", {keyword: this.data.keyword}, {})
+            this.triggerEvent("onSearch", {keywords: this.data.keywords}, {})
             if (this.properties.clean) {
                 this.setData({
-                    keyword: ''
+                    keywords: ''
                 })
             }
         }

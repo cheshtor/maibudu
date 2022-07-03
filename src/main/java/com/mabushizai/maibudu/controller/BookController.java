@@ -28,7 +28,6 @@ public class BookController {
     @GetMapping(value = "/scan")
     public ApiResponse<BookSlimInfo> scanBook(@RequestParam("isbn") String isbn) {
         AssertUtil.notEmpty(isbn, "书籍 ISBN 不能为空");
-        AssertUtil.isTrue(isbn.length() == 10 || isbn.length() == 13, "仅支持 10 位和 13 位 ISBN");
         BookSlimInfo slimInfo = bookService.scanBook(isbn);
         return ApiResponse.ok(slimInfo);
     }

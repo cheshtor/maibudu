@@ -98,5 +98,8 @@
 
 .nickname {
     width: 100%;
+    height: 60rpx;
     margin-top: 24rpx;
+    text-align: center;
+    border-bottom: 1rpx solid #f2f7ff;
 }

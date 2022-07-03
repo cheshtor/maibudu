@@ -11,13 +11,14 @@ Page({
         showBookScanOverlay: false,
         showBookScanResultDialog: false,
         bookSlimInfo: {
+            id: null,
             title: '',
             author: '',
             publisher: '',
             cover: ''
         },
         showRegisterDialog: false,
-        avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
+        avatarUrl: 'cloud://prod-3ggnrc2pfd5a1785.7072-prod-3ggnrc2pfd5a1785-1312587653/avatar/default_avatar.png',
         nickname: ''
     },
 
@@ -54,8 +55,19 @@ Page({
     /**
      * 书籍信息确认弹窗确认时
      */
-    onBookScanResultDialogConfirm() {
-        console.log('书籍加入书架')
+    async onBookScanResultDialogConfirm() {
+        if (!this.data.bookSlimInfo.id) {
+            return
+        }
+        const res = await invoke({
+            path: '/api/shelf/addBook?bookId=' + this.data.bookSlimInfo.id
+        })
+        if (res) {
+            showNotify('书籍添加成功')
+            // 刷新书籍总数
+            this.getBookCount()
+        }
+        this.onBookScanResultDialogClose()
     },
 
     /**
@@ -78,32 +90,39 @@ Page({
      * 调起相机扫码
      */
     scanBook() {
-        let that = this
-        wx.scanCode({
-            onlyFromCamera: false, // 允许从相册选择照片
-            scanType: ['barCode'], // 只允许扫条形码，不能扫二维码
-            success: async function (res) {
-                that.setData({
-                    showBookScanOverlay: true
-                })
-                const book = await invoke({
-                    path: '/api/book/scan?isbn=' + res.result
-                })
-                that.setData({
-                    bookSlimInfo: {
-                        title: book.title,
-                        author: book.author || '未知',
-                        publisher: book.publisher || '未知',
-                        cover: book.cover
-                    },
-                    showBookScanResultDialog: true,
-                    showBookScanOverlay: false
-                })
-            },
-            fail: function () {
-                showError('书籍扫描失败，请再试试~')
-            }
-        })
+        try {
+            this.setData({
+                showBookScanOverlay: true
+            })
+            let that = this
+            wx.scanCode({
+                onlyFromCamera: false, // 允许从相册选择照片
+                scanType: ['barCode'], // 只允许扫条形码，不能扫二维码
+                success: async function (res) {
+                    const book = await invoke({
+                        path: '/api/book/scan?isbn=' + res.result
+                    })
+                    that.setData({
+                        bookSlimInfo: {
+                            id: book.id,
+                            title: book.title,
+                            author: book.author || '未知',
+                            publisher: book.publisher || '未知',
+                            cover: book.cover
+                        },
+                        showBookScanResultDialog: true,
+                        showBookScanOverlay: false
+                    })
+                },
+                fail: function () {
+                    showError('书籍扫描失败，请再试试~')
+                }
+            })
+        } finally{
+            this.setData({
+                showBookScanOverlay: false
+            })
+        }
     },
 
     /**
@@ -149,7 +168,7 @@ Page({
      */
     onRegisterDialogClose() {
         this.setData({
-            avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
+            avatarUrl: 'cloud://prod-3ggnrc2pfd5a1785.7072-prod-3ggnrc2pfd5a1785-1312587653/avatar/default_avatar.png',
             nickname: ''
         })
     },

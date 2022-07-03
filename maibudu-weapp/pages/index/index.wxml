@@ -62,19 +62,13 @@
         bind:onConfirm="onRegisterDialogConfirm"
         title="授权微信昵称和头像"
         confirmBtnText="注册">
-
         <view slot="content" class="register-content">
+            <!-- 头像 -->
             <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
                 <image class="avatar" src="{{avatarUrl}}"></image>
             </button>
-            <!-- TODO 双向绑定无法获取自动填入的内容 -->
-            <van-field 
-                type="nickname" 
-                center="true"
-                input-align="center"
-                class="nickname" 
-                model:value="{{nickname}}" 
-                placeholder="点击获取微信昵称" />
+            <!-- 昵称 -->
+            <input type="nickname" class="nickname" model:value="{{nickname}}" placeholder="点击获取微信昵称"/>
         </view>
     </m-dialog>
     <!-- 提示信息 -->
