@@ -3,6 +3,8 @@ package com.mabushizai.maibudu.dao;
 import com.mabushizai.maibudu.domain.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 
  *
@@ -17,4 +19,6 @@ public interface UserDao {
     int countByCode(@Param("code") String code);
 
     User findByCode(@Param("code") String code);
+
+    List<User> findByUidList(@Param("ids") List<String> uidList);
 }

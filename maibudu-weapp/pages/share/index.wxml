@@ -4,15 +4,6 @@
     </view>
 
     <scroll-view scroll-y class="share-list">
-        <m-share-card text="LSNDFLWE"></m-share-card>
-        <m-share-card text="青青草原抓羊小能手的书架"></m-share-card>
-        <m-share-card text="LSNDFLWE"></m-share-card>
-        <m-share-card text="LSNDFLWE"></m-share-card>
-        <m-share-card text="LSNDFLWE"></m-share-card>
-        <m-share-card text="LSNDFLWE"></m-share-card>
-        <m-share-card text="LSNDFLWE"></m-share-card>
-        <m-share-card text="LSNDFLWE"></m-share-card>
-        <m-share-card text="LSNDFLWE"></m-share-card>
-        <m-share-card text="LSNDFLWE"></m-share-card>
+        <m-share-card wx:for="{{shelves}}" wx:key="exporterId" text="{{item.nickname}}的书架" avatar="{{item.avatar}}" code="{{item.code}}"></m-share-card>
     </scroll-view>
 </view>

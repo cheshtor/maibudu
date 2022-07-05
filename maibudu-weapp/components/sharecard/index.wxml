@@ -1,7 +1,8 @@
 <view class="outer">
     <van-swipe-cell right-width="{{ 85 }}">
         <view class="main">
-            <text>{{text}}</text>
+            <image class="avatar" src="{{avatar}}"></image>
+            <text class="name">{{text}}</text>
         </view>
         <view slot="right">删除</view>
     </van-swipe-cell>

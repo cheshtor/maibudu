@@ -22,6 +22,18 @@
         from `user`
         where `uid` = #{uid}
     </select>
+
+    <select id="findByUidList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from `user`
+        where `uid` IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.User">
         <!--@mbg.generated-->
         insert into `user` (`uid`, `code`, `nickname`, `avatar`, create_date, sys_status)

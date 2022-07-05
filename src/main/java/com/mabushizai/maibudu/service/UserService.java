@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Pengyu Gan
@@ -54,6 +56,14 @@ public class UserService {
     public User findByCode(String code) {
         AssertUtil.notEmpty(code, "共享码不能为空");
         return userDao.findByCode(code);
+    }
+
+    public List<User> findByUidList(List<String> uidList) {
+        List<User> users = new ArrayList<>();
+        if (null != uidList && !uidList.isEmpty()) {
+            users = userDao.findByUidList(uidList);
+        }
+        return users;
     }
 
     private String getCode() {

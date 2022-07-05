@@ -74,7 +74,7 @@ Page({
      * 导入共享书架
      */
     async importShare(e) {
-        const shareCode = e.detail.keyword
+        const shareCode = e.detail.keywords
         if (!shareCode) {
             return;
         }

@@ -1,4 +1,3 @@
-// components/sharecard/index.js
 Component({
 
     options: {
@@ -8,7 +7,9 @@ Component({
      * 组件的属性列表
      */
     properties: {
-        text: String
+        text: String,
+        avatar: String,
+        code: String
     },
 
     /**
