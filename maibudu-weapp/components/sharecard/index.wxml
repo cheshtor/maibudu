@@ -1,9 +1,9 @@
 <view class="outer">
     <van-swipe-cell right-width="{{ 85 }}">
-        <view class="main">
+        <view class="main" bindtap="onClickShelf">
             <image class="avatar" src="{{avatar}}"></image>
-            <text class="name">{{text}}</text>
+            <text class="name">{{nickname}}的书架</text>
         </view>
-        <view slot="right">删除</view>
+        <view slot="right" bindtap="onRemoveShareShelf">删除</view>
     </van-swipe-cell>
 </view>

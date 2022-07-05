@@ -1,6 +1,6 @@
 <view class="container">
     <view class="search">
-        <m-search bindonSearch="searchBooks" placeholder="我的书架" text="查找" left-icon="search"></m-search>
+        <m-search bindonSearch="searchBooks" placeholder="{{placeholder}}" text="查找" left-icon="search"></m-search>
     </view>
 
     <scroll-view bindscrolltolower="onScrollToBottom" scroll-y class="bookshelf">

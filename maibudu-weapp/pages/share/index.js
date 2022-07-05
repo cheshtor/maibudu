@@ -1,4 +1,5 @@
 import invoke from "../../utils/http"
+import {gotoPage, showNotify} from '../../utils/common'
 Page({
 
     data: {
@@ -40,6 +41,41 @@ Page({
 
     onLoad(options) {
         this.loadShelves(this.data.page.pageNo, this.data.page.pageSize)
+    },
+
+    /**
+     * 点击共享书架，跳转搜索页面
+     */
+    onClickShelf(e) {
+        const shareCode = e.detail.shareCode
+        const nickname = e.detail.nickname
+        gotoPage('../bookshelf/index', {
+            shareCode: shareCode,
+            nickname: nickname
+        })
+    },
+
+    /**
+     * 删除共享书架
+     */
+    async onRemoveShelf(e) {
+        const shareCode = e.detail.shareCode
+        const success = await invoke({
+            path: '/api/share/remove?shareCode=' + shareCode
+        })
+        if (success) {
+            this.setData({
+                shelves: [],
+                page: {
+                    pageNo: 1,
+                    pageSize: 10,
+                    totalCount: 0,
+                    totalPages: 0
+                }
+            })
+            this.onLoad()
+            showNotify('共享书架删除成功')
+        }
     },
 
     /**

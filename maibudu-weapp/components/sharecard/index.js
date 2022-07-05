@@ -1,3 +1,4 @@
+import invoke from '../../utils/http'
 Component({
 
     options: {
@@ -7,7 +8,7 @@ Component({
      * 组件的属性列表
      */
     properties: {
-        text: String,
+        nickname: String,
         avatar: String,
         code: String
     },
@@ -23,6 +24,12 @@ Component({
      * 组件的方法列表
      */
     methods: {
+        onClickShelf() {
+            this.triggerEvent("onClickShelf", {shareCode: this.properties.code, nickname: this.properties.nickname}, {})
+        },
 
+        onRemoveShareShelf() {
+            this.triggerEvent("onRemoveShareShelf", {shareCode: this.properties.code}, {})
+        }
     }
 })

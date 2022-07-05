@@ -3,14 +3,16 @@ import invoke from "../../utils/http"
 Page({
     data: {
         books: [], // 书籍列表
-        keywords: '', // 搜索关键字
+        keywords: null, // 搜索关键字
         loadBooksLock: false, // 加载书籍列表锁，确保每一次加载流程走完之前不会发起下一次请求
         page: { // 分页信息
             pageNo: 1,
             pageSize: 10,
             totalCount: 0,
             totalPages: 0
-        }
+        },
+        placeholder: '我的书架',
+        shareCode: null
     },
 
     /**
@@ -28,7 +30,7 @@ Page({
                 totalPages: 0
             }
         })
-        this.loadBooks(this.data.page.pageNo, this.data.page.pageSize, null, keywords)
+        this.loadBooks(this.data.page.pageNo, this.data.page.pageSize, this.data.shareCode, keywords)
     },
 
     /**
@@ -65,8 +67,16 @@ Page({
         }
     },
 
-    onLoad() {
-        this.loadBooks(this.data.page.pageNo, this.data.page.pageSize)
+    onLoad(options) {
+        if (options.shareCode && options.nickname) {
+            const shareCode = options.shareCode
+            const nickname = options.nickname
+            this.setData({
+                placeholder: nickname + '的书架',
+                shareCode: shareCode
+            })
+        }
+        this.loadBooks(this.data.page.pageNo, this.data.page.pageSize, this.data.shareCode, null)
     },
 
     /**
