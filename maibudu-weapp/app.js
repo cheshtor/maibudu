@@ -11,7 +11,7 @@ App({
             env: 'prod-3ggnrc2pfd5a1785',
             traceUser: true,
         })
-        this.loadUser()
+        await this.loadUser()
     },
 
     /**

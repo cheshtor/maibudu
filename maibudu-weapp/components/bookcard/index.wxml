@@ -1,9 +1,9 @@
-<view class="outer">
+<view class="outer" bindtap="showBookDetail">
     <van-card
         currency=""
-        title="{{title}}"
+        title="{{computedTitle}}"
         thumb="{{cover}}">
-        <text slot="desc">{{author}}</text>
-        <text slot="price">{{publisher}}</text>
+        <text slot="desc">{{computedAuthor}}</text>
+        <text slot="price">{{computedPublisher}}</text>
     </van-card>
 </view>

@@ -2,7 +2,8 @@
     "pages": [
         "pages/index/index",
         "pages/bookshelf/index",
-        "pages/share/index"
+        "pages/share/index",
+        "pages/detail/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
