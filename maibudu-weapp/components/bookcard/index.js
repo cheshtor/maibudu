@@ -1,4 +1,5 @@
 import {gotoPage} from '../../utils/common'
+
 Component({
     options: {
         styleIsolation: 'shared'

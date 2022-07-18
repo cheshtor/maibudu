@@ -2,8 +2,6 @@ package com.mabushizai.maibudu.domain;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -18,6 +16,11 @@ public class Book {
      * 主键ID
      */
     private Long id;
+
+    /**
+     * 豆瓣图书对应 ID
+     */
+    private String doubanId;
 
     /**
      * 第一次扫描本书的用户ID
@@ -42,7 +45,7 @@ public class Book {
     /**
      * 出版日期
      */
-    private LocalDate publishDate;
+    private String publishDate;
 
     /**
      * 出版社名称
@@ -62,12 +65,12 @@ public class Book {
     /**
      * 总页数
      */
-    private Integer pages;
+    private String pages;
 
     /**
      * 销售价格
      */
-    private BigDecimal price;
+    private String price;
 
     /**
      * 装订方式
@@ -80,12 +83,13 @@ public class Book {
     private String cover;
 
     /**
+     * 书籍豆瓣评分
+     */
+    private String score;
+
+    /**
      * 入库时间
      */
     private LocalDateTime createDate;
 
-    /**
-     * 0 - 正常，1 - 删除
-     */
-    private Byte sysStatus;
 }

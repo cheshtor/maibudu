@@ -5,6 +5,7 @@
         <!--@mbg.generated-->
         <!--@Table book-->
         <id column="id" property="id"/>
+        <result column="douban_id" property="doubanId"/>
         <result column="uid" property="uid"/>
         <result column="title" property="title"/>
         <result column="subtitle" property="subtitle"/>
@@ -17,24 +18,23 @@
         <result column="price" property="price"/>
         <result column="binding" property="binding"/>
         <result column="cover" property="cover"/>
+        <result column="score" property="score"/>
         <result column="create_date" property="createDate"/>
-        <result column="sys_status" property="sysStatus"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, `uid`, title, subtitle, author, publish_date, publisher, isbn, summary, pages,
-        price, binding, cover, create_date, sys_status
+        id, douban_id, `uid`, title, subtitle, author, publish_date, publisher, isbn, summary, pages,
+        price, binding, cover, score, create_date
     </sql>
 
     <sql id="Base_Column_List_Without_Summary">
-        <!--@mbg.generated-->
-        id, `uid`, title, subtitle, author, publish_date, publisher, isbn, pages,
-        price, binding, cover, create_date, sys_status
+        id, douban_id, `uid`, title, subtitle, author, publish_date, publisher, isbn, pages,
+        price, binding, cover, score, create_date
     </sql>
 
     <select id="findByISBN" resultMap="BaseResultMap">
         SELECT
-            <include refid="Base_Column_List"/>
+            <include refid="Base_Column_List_Without_Summary"/>
         FROM
             book
         WHERE
@@ -42,26 +42,22 @@
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
         select
         <include refid="Base_Column_List_Without_Summary"/>
         from book
         where id = #{id}
-        and sys_status = 0
     </select>
 
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.Book">
-        <!--@mbg.generated-->
         INSERT INTO
             book
             (
-                id, `uid`, title, subtitle, author, publish_date, publisher, isbn,
-                summary, pages, price, binding, cover, create_date, sys_status
+                id, douban_id, `uid`, title, subtitle, author, publish_date, publisher, isbn,
+                summary, pages, price, binding, cover, score, create_date
             )
         VALUES
-            (    #{id}, #{uid}, #{title}, #{subtitle}, #{author}, #{publishDate}, #{publisher},
-                #{isbn}, #{summary}, #{pages}, #{price}, #{binding}, #{cover},
-                #{createDate}, #{sysStatus}
+            (    #{id}, #{doubanId}, #{uid}, #{title}, #{subtitle}, #{author}, #{publishDate}, #{publisher},
+                #{isbn}, #{summary}, #{pages}, #{price}, #{binding}, #{cover}, #{score}, #{createDate}
             )
     </insert>
 </mapper>

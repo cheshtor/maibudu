@@ -2,7 +2,6 @@ package com.mabushizai.maibudu.controller;
 
 import com.mabushizai.maibudu.annotations.RequireRegister;
 import com.mabushizai.maibudu.config.ApiResponse;
-import com.mabushizai.maibudu.domain.ShareShelf;
 import com.mabushizai.maibudu.dto.Page;
 import com.mabushizai.maibudu.dto.PageModel;
 import com.mabushizai.maibudu.dto.ShareShelfInfo;

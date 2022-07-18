@@ -1,9 +1,6 @@
 import invoke from '../../utils/http'
-import {
-    gotoPage,
-    showNotify,
-    showError
-} from '../../utils/common'
+import {gotoPage, showError, showNotify} from '../../utils/common'
+
 Page({
     data: {
         shareCode: '-',

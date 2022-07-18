@@ -1,15 +1,10 @@
 package com.mabushizai.maibudu.dto;
 
 import com.mabushizai.maibudu.config.MaibuduException;
-import com.mabushizai.maibudu.constants.SysStatusEnum;
 import com.mabushizai.maibudu.domain.Book;
-import com.mabushizai.maibudu.utils.StringUtil;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -72,32 +67,23 @@ public class JikeBookInfo implements Serializable {
     public Book convert() {
         try {
             Book book = new Book();
+            book.setDoubanId(String.valueOf(this.getDouban()));
             book.setTitle(this.getName());
             book.setSubtitle(this.getSubname());
             book.setAuthor(this.getAuthor());
-            if (StringUtils.hasLength(this.getPublished())) {
-                String[] parts = this.getPublished().split("-");
-                int year = Integer.parseInt(parts[0]);
-                int month = Integer.parseInt(parts[1]);
-                LocalDate publishDate = LocalDate.of(year, month, 1);
-                book.setPublishDate(publishDate);
-            }
+            book.setPublishDate(this.getPublished());
             book.setPublisher(this.getPublishing());
             book.setIsbn(String.valueOf(this.getId()));
             String summary = this.getDescription();
-            if (summary.length() > 1024) {
-                summary = summary.substring(0, 1020) + "...";
+            if (summary.length() > 65535) {
+                summary = summary.substring(0, 65530) + "...";
             }
             book.setSummary(summary);
-            if (StringUtils.hasLength(this.getPages())) {
-                book.setPages(Integer.parseInt(this.getPages()));
-            }
-            if (StringUtils.hasLength(this.getPrice())) {
-                book.setPrice(new BigDecimal(StringUtil.cleanPrice(this.getPrice())));
-            }
+            book.setPages(this.getPages());
+            book.setPrice(this.getPrice());
             book.setBinding(this.getDesigned());
             book.setCover(this.getPhotoUrl());
-            book.setSysStatus(SysStatusEnum.NORMAL.getValue());
+            book.setScore(String.valueOf(this.getDoubanScore()));
             return book;
         } catch (Throwable e) {
             throw new MaibuduException("分析书籍信息失败");

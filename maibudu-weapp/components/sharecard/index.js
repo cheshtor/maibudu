@@ -1,4 +1,3 @@
-import invoke from '../../utils/http'
 Component({
 
     options: {

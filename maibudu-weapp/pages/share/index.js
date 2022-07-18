@@ -1,5 +1,6 @@
 import invoke from "../../utils/http"
 import {gotoPage, showNotify} from '../../utils/common'
+
 Page({
 
     data: {
