@@ -56,4 +56,14 @@ public class UserContext {
         removeUser();
     }
 
+    public static void initForTest() {
+        uidThreadLocal.set("oso0q5VABTWlDGMSlCNuUSx6BOSA");
+        User user = new User();
+        user.setUid("oso0q5VABTWlDGMSlCNuUSx6BOSA");
+        user.setNickname("青青草原抓羊小能手");
+        user.setAvatar("https://7072-prod-3ggnrc2pfd5a1785-1312587653.tcb.qcloud.la/avatar/oso0q5VABTWlDGMSlCNuUSx6BOSA.jpeg");
+        user.setCode("rZdEszbU");
+        userThreadLocal.set(user);
+    }
+
 }

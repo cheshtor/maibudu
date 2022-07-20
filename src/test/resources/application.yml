@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://sh-cynosdbmysql-grp-9v8u907m.sql.tencentcdb.com:22188/maibudu
+    username: root
+    password: 7788uJmki*
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  config-location: classpath:mybatis-config.xml

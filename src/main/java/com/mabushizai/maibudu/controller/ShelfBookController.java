@@ -8,6 +8,7 @@ import com.mabushizai.maibudu.dto.Page;
 import com.mabushizai.maibudu.dto.PageModel;
 import com.mabushizai.maibudu.service.ShelfBookService;
 import com.mabushizai.maibudu.utils.AssertUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import java.util.List;
  * @author Pengyu Gan
  * CreateDate 2022/6/27
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/shelf")
 public class ShelfBookController {
@@ -45,6 +47,7 @@ public class ShelfBookController {
                                                         @RequestParam(value = "keyword", required = false) String keyword) {
         PageModel pageModel = new PageModel(pageNo, pageSize);
         Page<BookCompleteInfo> page = shelfBookService.list(pageModel, shareCode, keyword);
+        log.info("获取到 {} 条数据，共计 {} 条，{} 页。", page.getRows().size(), page.getTotalCount(), page.getTotalPages());
         // 模型转换
         List<BookCompleteInfo> rows = page.getRows();
         List<BookVO> list = new ArrayList<>();
@@ -57,6 +60,7 @@ public class ShelfBookController {
         model.setTotalCount(page.getTotalCount());
         model.setTotalPages(page.getTotalPages());
         Page<BookVO> res = new Page<>(model, list);
+        log.info("转换完成后 {} 条数据，共计 {} 条，{} 页。", res.getRows().size(), res.getTotalCount(), res.getTotalPages());
         return ApiResponse.ok(res);
     }
 
