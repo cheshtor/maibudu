@@ -5,7 +5,6 @@ import com.mabushizai.maibudu.domain.ShareShelf;
 import com.mabushizai.maibudu.domain.User;
 import com.mabushizai.maibudu.dto.Page;
 import com.mabushizai.maibudu.dto.PageModel;
-import com.mabushizai.maibudu.dto.ShareShelfInfo;
 import com.mabushizai.maibudu.utils.AssertUtil;
 import com.mabushizai.maibudu.utils.UserContext;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Pengyu Gan
@@ -57,31 +54,10 @@ public class ShareShelfService {
         return rows != 0;
     }
 
-    public Page<ShareShelfInfo> list(PageModel pageModel) {
-        List<ShareShelfInfo> shareInfos = new ArrayList<>();
+    public Page<ShareShelf> list(PageModel pageModel) {
         String importerId = UserContext.getUid();
         List<ShareShelf> shares = shareShelfDao.listShares(importerId, pageModel);
-        if (null != shares && !shares.isEmpty()) {
-            List<String> uidList = shares.stream().map(ShareShelf::getExporterId).collect(Collectors.toList());
-            List<User> users = userService.findByUidList(uidList);
-            userLoop:
-            for (User user : users) {
-                for (ShareShelf share : shares) {
-                    if (user.getUid().equals(share.getExporterId())) {
-                        ShareShelfInfo info = new ShareShelfInfo();
-                        info.setImporterId(share.getImporterId());
-                        info.setExporterId(share.getExporterId());
-                        info.setCreateDate(share.getCreateDate());
-                        info.setCode(user.getCode());
-                        info.setAvatar(user.getAvatar());
-                        info.setNickname(user.getNickname());
-                        shareInfos.add(info);
-                        continue userLoop;
-                    }
-                }
-            }
-        }
-        return new Page<>(pageModel, shareInfos);
+        return new Page<>(pageModel, shares);
     }
 
 

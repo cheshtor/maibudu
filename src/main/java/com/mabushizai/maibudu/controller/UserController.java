@@ -5,7 +5,11 @@ import com.mabushizai.maibudu.domain.User;
 import com.mabushizai.maibudu.dto.UserRegisterRequest;
 import com.mabushizai.maibudu.service.UserService;
 import com.mabushizai.maibudu.utils.UserContext;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 

@@ -1,6 +1,7 @@
 package com.mabushizai.maibudu.dao;
 
 import com.mabushizai.maibudu.domain.Book;
+import com.mabushizai.maibudu.domain.BookCompleteInfo;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -16,4 +17,6 @@ public interface BookDao {
     int insert(Book record);
 
     Book selectByPrimaryKey(Long id);
+
+    BookCompleteInfo findByBookId(Long id);
 }

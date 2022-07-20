@@ -29,8 +29,4 @@ public class ShelfBook {
      */
     private LocalDateTime createDate;
 
-    /**
-     * 0 - 正常，1 - 删除
-     */
-    private Byte sysStatus;
 }

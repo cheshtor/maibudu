@@ -6,13 +6,13 @@
         <!--@Table share_shelf-->
         <id column="importer_id" property="importerId"/>
         <id column="exporter_id" property="exporterId"/>
+        <id column="exporter_code" property="exporterCode"/>
+        <id column="exporter_nickname" property="exporterNickname"/>
+        <id column="exporter_avatar" property="exporterAvatar"/>
         <result column="create_date" property="createDate"/>
     </resultMap>
     <sql id="Base_Column_List">
-        <!--@mbg.generated-->
-        importer_id,
-        exporter_id,
-        create_date
+        importer_id, exporter_id, exporter_code, exporter_nickname, exporter_avatar, create_date
     </sql>
     <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -31,9 +31,8 @@
     </delete>
 
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.ShareShelf">
-        <!--@mbg.generated-->
-        insert into share_shelf (importer_id, exporter_id, create_date)
-        values (#{importerId}, #{exporterId}, #{createDate})
+        insert into share_shelf (importer_id, exporter_id, exporter_code, exporter_nickname, exporter_avatar, create_date)
+        values (#{importerId}, #{exporterId}, #{exporterCode}, #{exporterNickname}, #{exporterAvatar}, #{createDate})
     </insert>
 
     <select id="listShares" resultMap="BaseResultMap">

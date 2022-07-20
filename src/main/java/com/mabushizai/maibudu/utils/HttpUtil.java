@@ -5,7 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.mabushizai.maibudu.config.MaibuduException;
 import com.mabushizai.maibudu.dto.JikeBookInfo;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import java.util.Map;
 
@@ -55,18 +60,5 @@ public class HttpUtil {
             log.error("GET {} 请求失败。", url, e);
             throw new MaibuduException(String.format("GET %s 请求失败。", url));
         }
-    }
-
-    public static JikeBookInfo getJikeBookInfo(String isbn) {
-        String apiKey = "12893.64dfcdfc527daf6f3c5ee64517ea3a10.757769ee75ec159312e5da15eec0264d";
-        String url = String.format(JIKE_ISBN_URL_TEMPLATE, isbn, apiKey);
-        String responseBody = get(url, null);
-        JSONObject jsonObject = JSON.parseObject(responseBody);
-        Object data = jsonObject.get("data");
-        if (null == data) {
-            log.error("[极客]获取图书信息失败。ISBN：{}", isbn);
-            return null;
-        }
-        return JSON.parseObject(jsonObject.getString("data"), JikeBookInfo.class);
     }
 }

@@ -46,13 +46,13 @@ public class ApiResponseAdvice {
             if (!StringUtils.hasLength(uid)) {
                 uid = request.getHeader("X-WX-OPENID");
                 if (!StringUtils.hasLength(uid)) {
-                    return ApiResponse.error("非法用户访问");
+                    return ApiResponse.error("OpenID 非法");
                 }
             }
             UserContext.setUid(uid);
             User user = userService.findByUid();
             if (null == user && isRequireRegister(pjp)) {
-                return ApiResponse.error("非法用户访问");
+                return ApiResponse.error("未注册用户非法访问");
             }
             UserContext.setUser(user);
             result = (ApiResponse<?>) pjp.proceed();

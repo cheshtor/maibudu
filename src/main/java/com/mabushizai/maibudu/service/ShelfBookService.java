@@ -1,9 +1,8 @@
 package com.mabushizai.maibudu.service;
 
 import com.mabushizai.maibudu.config.MaibuduException;
-import com.mabushizai.maibudu.constants.SysStatusEnum;
 import com.mabushizai.maibudu.dao.ShelfBookDao;
-import com.mabushizai.maibudu.domain.Book;
+import com.mabushizai.maibudu.domain.BookCompleteInfo;
 import com.mabushizai.maibudu.domain.ShelfBook;
 import com.mabushizai.maibudu.domain.User;
 import com.mabushizai.maibudu.dto.Page;
@@ -43,12 +42,11 @@ public class ShelfBookService {
         shelfBook.setUid(uid);
         shelfBook.setBookId(bookId);
         shelfBook.setCreateDate(LocalDateTime.now());
-        shelfBook.setSysStatus(SysStatusEnum.NORMAL.getValue());
         int rows = shelfBookDao.insert(shelfBook);
         return rows != 0;
     }
 
-    public Page<Book> list(PageModel pageModel, String shareCode, String keyword) {
+    public Page<BookCompleteInfo> list(PageModel pageModel, String shareCode, String keyword) {
         String uid = UserContext.getUid();
         // 如果有共享码，则使用共享码查询到对应的 uid
         if (StringUtils.hasLength(shareCode)) {
@@ -58,8 +56,8 @@ public class ShelfBookService {
             }
             uid = user.getUid();
         }
-        List<Book> bookDetails = shelfBookDao.searchBook(uid, keyword, pageModel);
-        return new Page<>(pageModel, bookDetails);
+        List<BookCompleteInfo> infos = shelfBookDao.listBook(uid, keyword, pageModel);
+        return new Page<>(pageModel, infos);
     }
 
     @Transactional

@@ -1,16 +1,15 @@
-package com.mabushizai.maibudu.dto;
+package com.mabushizai.maibudu.domain;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author Gan Pengyu
- * CreateDate 2022/7/19
+ * @author Pengyu Gan
+ * CreateDate 2022/7/20
  */
 @Data
-public class BookVO implements Serializable {
+public class BookCompleteInfo {
 
     /**
      * 书籍 ID

@@ -2,9 +2,9 @@ package com.mabushizai.maibudu.controller;
 
 import com.mabushizai.maibudu.annotations.RequireRegister;
 import com.mabushizai.maibudu.config.ApiResponse;
+import com.mabushizai.maibudu.domain.ShareShelf;
 import com.mabushizai.maibudu.dto.Page;
 import com.mabushizai.maibudu.dto.PageModel;
-import com.mabushizai.maibudu.dto.ShareShelfInfo;
 import com.mabushizai.maibudu.service.ShareShelfService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,11 +38,12 @@ public class ShareController {
         return ApiResponse.ok(success);
     }
 
+    @RequireRegister(require = true)
     @GetMapping(value = "/list")
-    public ApiResponse<Page<ShareShelfInfo>> listShares(@RequestParam("pageNo") Long pageNo,
+    public ApiResponse<Page<ShareShelf>> listShares(@RequestParam("pageNo") Long pageNo,
                                                     @RequestParam("pageSize") Integer pageSize) {
         PageModel pageModel = new PageModel(pageNo, pageSize);
-        Page<ShareShelfInfo> list = shareShelfService.list(pageModel);
+        Page<ShareShelf> list = shareShelfService.list(pageModel);
         return ApiResponse.ok(list);
     }
 

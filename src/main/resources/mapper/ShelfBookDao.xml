@@ -2,50 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mabushizai.maibudu.dao.ShelfBookDao">
     <resultMap id="BaseResultMap" type="com.mabushizai.maibudu.domain.ShelfBook">
-        <!--@mbg.generated-->
-        <!--@Table shelf_book-->
         <id column="uid" property="uid"/>
         <id column="book_id" property="bookId"/>
         <result column="create_date" property="createDate"/>
-        <result column="sys_status" property="sysStatus"/>
+    </resultMap>
+
+    <resultMap id="BookCompleteInfo" type="com.mabushizai.maibudu.domain.BookCompleteInfo">
+        <id column="id" property="id"/>
+        <result column="isbn" property="isbn"/>
+        <result column="title" property="title"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="author" property="author"/>
+        <result column="publish_date" property="publishDate"/>
+        <result column="publisher" property="publisher"/>
+        <result column="cover" property="cover"/>
+        <result column="ownerId" property="ownerId"/>
+        <result column="ownerNickname" property="ownerNickname"/>
+        <result column="ownerAvatar" property="ownerAvatar"/>
+        <result column="ownerScanTime" property="ownerScanTime"/>
+        <result column="creatorId" property="creatorId"/>
+        <result column="stockTime" property="stockTime"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        <!--@mbg.generated-->
         `uid`,
         book_id,
-        create_date,
-        sys_status
+        create_date
     </sql>
 
-    <select id="searchBook" resultMap="com.mabushizai.maibudu.dao.BookDao.BaseResultMap">
-        SELECT b.`id`,
-               sb.`uid`,
-               b.`douban_id`,
+    <select id="listBook" resultMap="BookCompleteInfo">
+        SELECT b.`id`,                           -- 书籍 ID
+               b.isbn,
                b.`title`,
                b.subtitle,
                b.author,
                b.publish_date,
                b.publisher,
-               b.isbn,
-               b.pages,
-               b.price,
-               b.binding,
                b.cover,
-               b.score
+               sb.`uid`        AS ownerId,       -- 书籍所属用户 ID，用于存在书架分享的场景
+               u.nickname      AS ownerNickname, -- 书籍所属用户昵称，用于存在书架分享的场景
+               u.avatar        AS ownerAvatar,   -- 书籍所属用户头像，用于存在书架分享的场景
+               sb.create_date  AS ownerScanTime, -- 书籍所属用户扫描本书入库的时间，用于存在书架分享的场景
+               b.`uid`         AS creatorId,     -- 第一次扫描本书次进入书籍库的用户 ID
+               b.`create_date` AS stockTime      -- 第一次扫描本书次进入书籍库的时间
         FROM shelf_book AS sb
                  LEFT JOIN book AS b ON sb.book_id = b.id
+                 LEFT JOIN `user` AS u ON sb.uid = u.uid
         WHERE (
                     sb.uid IN (SELECT exporter_id
                                FROM share_shelf
-                               WHERE importer_id = #{uid})
+                               WHERE importer_id = #{uid}) -- 查找所有共享书架所属用户的 ID
                 OR sb.uid = #{uid}
             )
-          AND sb.sys_status = 0
         <if test="title != null and title != ''">
             AND b.title LIKE CONCAT('%', #{title}, '%')
         </if>
-        ORDER BY sb.uid DESC
+        ORDER BY ownerScanTime DESC
     </select>
 
     <select id="findByUidAndBookId" parameterType="map" resultMap="BaseResultMap">
@@ -55,13 +67,11 @@
         FROM shelf_book
         WHERE `uid` = #{uid}
           AND book_id = #{bookId}
-          AND `sys_status` = 0
     </select>
 
     <update id="removeBook">
-        UPDATE
-            shelf_book
-        SET sys_status = 1
+        DELETE
+        FROM shelf_book
         WHERE `uid` = #{uid}
           AND `book_id` = #{bookId}
     </update>
@@ -71,17 +81,16 @@
         FROM shelf_book AS sb
                  LEFT JOIN book AS b ON sb.book_id = b.id
         WHERE (
-                    sb.uid IN (SELECT exporter_id
-                               FROM share_shelf
-                               WHERE importer_id = #{uid})
-                OR sb.uid = #{uid}
-            )
-          AND sb.sys_status = 0
+                          sb.uid IN (SELECT exporter_id
+                                     FROM share_shelf
+                                     WHERE importer_id = #{uid})
+                      OR sb.uid = #{uid}
+                  )
     </select>
 
     <insert id="insert" parameterType="com.mabushizai.maibudu.domain.ShelfBook">
         <!--@mbg.generated-->
-        insert into shelf_book (`uid`, book_id, create_date, sys_status)
-        values (#{uid}, #{bookId}, #{createDate}, #{sysStatus})
+        insert into shelf_book (`uid`, book_id, create_date)
+        values (#{uid}, #{bookId}, #{createDate})
     </insert>
 </mapper>

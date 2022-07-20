@@ -24,12 +24,12 @@
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, douban_id, `uid`, title, subtitle, author, publish_date, publisher, isbn, summary, pages,
-        price, binding, cover, score, create_date
+        price, binding, cover, score, `create_date`
     </sql>
 
     <sql id="Base_Column_List_Without_Summary">
         id, douban_id, `uid`, title, subtitle, author, publish_date, publisher, isbn, pages,
-        price, binding, cover, score, create_date
+        price, binding, cover, score, `create_date`
     </sql>
 
     <select id="findByISBN" resultMap="BaseResultMap">
@@ -39,6 +39,30 @@
             book
         WHERE
             `isbn` = #{isbn}
+    </select>
+
+    <select id="findByBookId" resultMap="com.mabushizai.maibudu.dao.ShelfBookDao.BookCompleteInfo">
+        SELECT
+            b.`id`, -- 书籍 ID
+            b.isbn,
+            b.`title`,
+            b.subtitle,
+            b.author,
+            b.publish_date,
+            b.publisher,
+            b.cover,
+            sb.`uid` AS ownerId, -- 书籍所属用户 ID，用于存在书架分享的场景
+            u.nickname AS ownerNickname, -- 书籍所属用户昵称，用于存在书架分享的场景
+            u.avatar AS ownerAvatar, -- 书籍所属用户头像，用于存在书架分享的场景
+            sb.create_date AS ownerScanTime, -- 书籍所属用户扫描本书入库的时间，用于存在书架分享的场景
+            b.`uid` AS creatorId, -- 第一次扫描本书次进入书籍库的用户 ID
+            b.`create_date` AS stockTime -- 第一次扫描本书次进入书籍库的时间
+        FROM
+            shelf_book AS sb
+                LEFT JOIN book AS b ON sb.book_id = b.id
+                LEFT JOIN `user` AS u ON sb.uid = u.uid
+        WHERE
+            b.id = #{id}
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">

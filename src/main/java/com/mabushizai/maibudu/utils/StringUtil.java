@@ -36,7 +36,7 @@ public class StringUtil {
     public static String generateCode() {
         StringBuilder buffer = new StringBuilder();
         char[] cs = chars.toCharArray();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 4; i++) {
             int index = random.nextInt(62);
             buffer.append(cs[index]);
         }

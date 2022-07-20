@@ -21,6 +21,21 @@ public class ShareShelf {
     private String exporterId;
 
     /**
+     * 分享者分享码
+     */
+    private String exporterCode;
+
+    /**
+     * 分享者昵称
+     */
+    private String exporterNickname;
+
+    /**
+     * 分享者头像
+     */
+    private String exporterAvatar;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createDate;

@@ -3,9 +3,11 @@ package com.mabushizai.maibudu.controller;
 import com.mabushizai.maibudu.annotations.RequireRegister;
 import com.mabushizai.maibudu.config.ApiResponse;
 import com.mabushizai.maibudu.domain.Book;
-import com.mabushizai.maibudu.dto.BookSlimInfo;
+import com.mabushizai.maibudu.domain.BookCompleteInfo;
+import com.mabushizai.maibudu.dto.BookVO;
 import com.mabushizai.maibudu.service.BookService;
 import com.mabushizai.maibudu.utils.AssertUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,26 +28,36 @@ public class BookController {
 
     @RequireRegister(require = true)
     @GetMapping(value = "/scan")
-    public ApiResponse<BookSlimInfo> scanBook(@RequestParam("isbn") String isbn) {
+    public ApiResponse<BookVO> scanBook(@RequestParam("isbn") String isbn) {
         AssertUtil.notEmpty(isbn, "书籍 ISBN 不能为空");
-        BookSlimInfo slimInfo = bookService.scanBook(isbn);
-        return ApiResponse.ok(slimInfo);
+        Book book = bookService.scanBook(isbn);
+        BookVO vo = new BookVO();
+        vo.setId(book.getId());
+        vo.setTitle(book.getTitle());
+        vo.setSubtitle(book.getSubtitle());
+        vo.setAuthor(book.getAuthor());
+        vo.setPublisher(book.getPublisher());
+        vo.setIsbn(book.getIsbn());
+        return ApiResponse.ok(vo);
     }
 
+    @RequireRegister(require = true)
     @GetMapping(value = "/get")
-    public ApiResponse<Book> getBook(@RequestParam("bookId") Long bookId) {
+    public ApiResponse<BookVO> getBook(@RequestParam("bookId") Long bookId) {
         AssertUtil.notNull(bookId, "书籍 ID 不能为空");
-        Book book = bookService.findById(bookId);
-        return ApiResponse.ok(book);
+        BookCompleteInfo info = bookService.findById(bookId);
+        BookVO vo = new BookVO();
+        BeanUtils.copyProperties(info, vo);
+        return ApiResponse.ok(vo);
     }
 
-    @GetMapping(value = "/getSlim")
-    public ApiResponse<BookSlimInfo> getSlimBookInfo(@RequestParam("bookId") Long bookId) {
-        AssertUtil.notNull(bookId, "书籍 ID 不能为空");
-        Book book = bookService.findById(bookId);
-        BookSlimInfo slimInfo = new BookSlimInfo();
-        slimInfo.doSlim(book);
-        return ApiResponse.ok(slimInfo);
-    }
+//    @GetMapping(value = "/getSimple")
+//    public ApiResponse<BookVO> getSlimBookInfo(@RequestParam("bookId") Long bookId) {
+//        AssertUtil.notNull(bookId, "书籍 ID 不能为空");
+//        BookCompleteInfo info = bookService.findById(bookId);
+//        BookSlimInfo slimInfo = new BookSlimInfo();
+//        slimInfo.doSlim(book);
+//        return ApiResponse.ok(slimInfo);
+//    }
 
 }
