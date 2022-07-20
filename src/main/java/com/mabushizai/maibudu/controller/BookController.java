@@ -37,6 +37,7 @@ public class BookController {
         vo.setSubtitle(book.getSubtitle());
         vo.setAuthor(book.getAuthor());
         vo.setPublisher(book.getPublisher());
+        vo.setCover(book.getCover());
         vo.setIsbn(book.getIsbn());
         return ApiResponse.ok(vo);
     }
