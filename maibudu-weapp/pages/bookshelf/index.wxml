@@ -4,6 +4,13 @@
     </view>
 
     <scroll-view bindscrolltolower="onScrollToBottom" scroll-y class="bookshelf">
-        <m-book-card wx:for="{{books}}" wx:key="id" title="{{item.title}}" book-id="{{item.id}}" author="{{item.author}}" publisher="{{item.publisher}}" cover="{{item.cover}}" />
+        <m-book-card 
+            wx:for="{{books}}" 
+            wx:key="id" 
+            title="{{item.title}}" 
+            book-id="{{item.id}}" 
+            author="{{item.author}}" 
+            publisher="{{item.publisher}}" 
+            cover="{{item.cover}}" />
     </scroll-view>
 </view>

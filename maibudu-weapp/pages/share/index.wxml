@@ -7,9 +7,9 @@
         <m-share-card 
             wx:for="{{shelves}}" 
             wx:key="exporterId" 
-            nickname="{{item.nickname}}" 
-            avatar="{{item.avatar}}" 
-            code="{{item.code}}" 
+            nickname="{{item.exporterNickname}}" 
+            avatar="{{item.exporterAvatar}}" 
+            code="{{item.exporterCode}}" 
             bindonClickShelf="onClickShelf"
             bindonRemoveShareShelf="onRemoveShelf" />
     </scroll-view>

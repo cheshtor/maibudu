@@ -30,6 +30,8 @@ public class BookFetchService {
     @PostConstruct
     public void init() {
         JIKE_API_KEY_LIST.add("12893.64dfcdfc527daf6f3c5ee64517ea3a10.757769ee75ec159312e5da15eec0264d");
+        JIKE_API_KEY_LIST.add("13119.3595824a07ac3a847b85c361a6073a1c.8f4699f1b67ccca9a80fefa5e9ca4b48");
+        JIKE_API_KEY_LIST.add("13120.73a1eedb2b7ae065ee4ae99092f7cf46.26dd0cc5fb00ddecb85fc43da143cd44");
     }
 
     public JikeBookInfo fetchFromJike(String isbn) {

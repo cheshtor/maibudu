@@ -9,7 +9,11 @@ Page({
         subtitle: '',
         author: '',
         publisher: '',
-        publishDate: ''
+        publishDate: '',
+        isbn: '',
+        mine: true,
+        ownerNickname: '',
+        ownerAvatar: ''
     },
 
     async onLoad(options) {
@@ -24,7 +28,11 @@ Page({
             subtitle: book.subtitle,
             author: book.author,
             publisher: book.publisher,
-            publishDate: book.publishDate
+            publishDate: book.publishDate,
+            isbn: book.isbn,
+            mine: book.mine,
+            ownerNickname: book.ownerNickname,
+            ownerAvatar: book.ownerAvatar
         })
     }
 })

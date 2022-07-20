@@ -1,5 +1,6 @@
 package com.mabushizai.maibudu.dto;
 
+import com.mabushizai.maibudu.utils.UserContext;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -60,5 +61,9 @@ public class BookVO implements Serializable {
      * 书籍第一次被添加到系统的时间
      */
     private LocalDateTime stockTime;
+
+    public boolean isMine() {
+        return this.getOwnerId().equals(UserContext.getUid());
+    }
 
 }
